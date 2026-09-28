@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FinApp Pro - Controle Financeiro Inteligente</title>
+<title>FinApp Pro v0.0.3 - Controle Financeiro Inteligente</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
@@ -44,10 +44,12 @@
     background-image: 
       radial-gradient(circle at 10% 0%, rgba(130,10,209,0.08) 0%, transparent 40%),
       radial-gradient(circle at 90% 100%, rgba(0,208,132,0.05) 0%, transparent 40%);
+    display: flex;
+    flex-direction: column;
   }
   .hidden { display: none !important; }
 
-  /* ============ LOGIN ============ */
+  /* LOGIN */
   #loginScreen {
     min-height: 100vh;
     display: flex;
@@ -69,7 +71,7 @@
     box-shadow: var(--shadow-lg);
     backdrop-filter: blur(20px);
   }
-  .logo { text-align: center; margin-bottom: 32px; }
+  .logo { text-align: center; margin-bottom: 28px; }
   .logo-icon {
     width: 76px; height: 76px;
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
@@ -88,6 +90,7 @@
   }
   .logo h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; }
   .logo p { color: var(--text-muted); font-size: 14px; margin-top: 6px; }
+  .logo .version { font-size: 11px; color: var(--text-muted); margin-top: 4px; background: var(--card-light); padding: 2px 8px; border-radius: 10px; display: inline-block; }
   .user-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
   .user-item {
     display: flex;
@@ -112,8 +115,10 @@
     flex-shrink: 0;
     color: white;
   }
+  .user-info { flex: 1; }
   .user-info h3 { font-size: 15px; margin-bottom: 2px; }
   .user-info p { font-size: 12px; color: var(--text-muted); }
+  .user-badge-role { font-size: 10px; padding: 2px 8px; border-radius: 10px; background: var(--primary-soft); color: var(--primary-light); font-weight: 600; }
   .add-user-btn {
     width: 100%;
     padding: 14px;
@@ -130,13 +135,15 @@
     gap: 8px;
   }
   .add-user-btn:hover { border-color: var(--primary); color: var(--primary-light); background: var(--primary-soft); }
+  .login-footer { text-align: center; margin-top: 20px; font-size: 11px; color: var(--text-muted); }
+  .login-footer a { color: var(--primary-light); text-decoration: none; }
 
-  /* ============ APP LAYOUT ============ */
-  #app { min-height: 100vh; display: flex; flex-direction: column; }
+  /* APP */
+  #app { min-height: 100vh; display: flex; flex-direction: column; flex: 1; }
   .top-bar {
-    background: rgba(22,22,31,0.8);
+    background: rgba(22,22,31,0.85);
     backdrop-filter: blur(20px);
-    padding: 14px 20px;
+    padding: 12px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -154,9 +161,10 @@
     justify-content: center;
     font-weight: 700;
     color: white;
+    font-size: 16px;
   }
   .user-badge .name { font-weight: 600; font-size: 15px; }
-  .user-badge .role { font-size: 12px; color: var(--text-muted); }
+  .user-badge .role { font-size: 11px; color: var(--text-muted); }
   .top-actions { display: flex; gap: 8px; }
   .icon-btn {
     width: 40px; height: 40px;
@@ -176,22 +184,21 @@
 
   .app-body { display: flex; flex: 1; }
   
-  /* Sidebar */
   .sidebar {
     width: 240px;
     background: var(--bg-soft);
     border-right: 1px solid var(--border-soft);
     padding: 16px 12px;
     position: sticky;
-    top: 69px;
-    height: calc(100vh - 69px);
+    top: 65px;
+    height: calc(100vh - 65px);
     overflow-y: auto;
   }
   .sidebar-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 14px;
+    padding: 11px 14px;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s;
@@ -207,12 +214,11 @@
   .sidebar-item:hover { background: var(--card); color: var(--text); }
   .sidebar-item.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(130,10,209,0.3); }
   .sidebar-item .icon { font-size: 18px; width: 24px; text-align: center; }
-  .sidebar-section { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 16px 14px 8px; font-weight: 600; }
+  .sidebar-section { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 16px 14px 8px; font-weight: 700; }
 
-  /* Main */
-  .main-content { flex: 1; padding: 24px; max-width: 1400px; margin: 0 auto; width: 100%; }
+  .main-content { flex: 1; padding: 24px; max-width: 1400px; margin: 0 auto; width: 100%; padding-bottom: 80px; }
 
-  /* ============ COMPONENTS ============ */
+  /* GRID */
   .grid { display: grid; gap: 16px; }
   .grid-2 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -235,7 +241,6 @@
   .card:hover { border-color: var(--border); }
   .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .card-title { font-size: 15px; font-weight: 600; }
-  .card-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
   /* Stats */
   .stat-card {
@@ -258,9 +263,9 @@
   .stat-card.income::before { background: var(--success); }
   .stat-card.expense::before { background: var(--danger); }
   .stat-card.savings::before { background: var(--warning); }
-  .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-  .stat-value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
-  .stat-change { font-size: 12px; margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+  .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+  .stat-change { font-size: 11px; margin-top: 6px; display: flex; align-items: center; gap: 4px; }
   .stat-change.up { color: var(--success); }
   .stat-change.down { color: var(--danger); }
 
@@ -291,7 +296,7 @@
   }
   .balance-hero > * { position: relative; z-index: 1; }
   .balance-hero .label { font-size: 13px; opacity: 0.85; margin-bottom: 8px; font-weight: 500; }
-  .balance-hero .value { font-size: 48px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+  .balance-hero .value { font-size: 44px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
   .balance-hero .sub { font-size: 13px; opacity: 0.8; }
 
   /* Quick Actions */
@@ -336,7 +341,7 @@
     padding: 22px;
     margin-bottom: 16px;
   }
-  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
   .section-title { font-size: 17px; font-weight: 700; }
   .section-link {
     color: var(--primary-light);
@@ -371,14 +376,15 @@
   .btn-success { background: var(--success); color: white; }
   .btn-success:hover { background: #00b873; }
   .btn-warning { background: var(--warning); color: white; }
-  .btn-ghost { background: transparent; color: var(--text-soft); }
+  .btn-warning:hover { background: #e09500; }
+  .btn-ghost { background: transparent; color: var(--text-soft); border: 1px solid transparent; }
   .btn-ghost:hover { background: var(--card-light); color: var(--text); }
   .btn-block { width: 100%; }
   .btn-sm { padding: 7px 12px; font-size: 12px; border-radius: 8px; }
 
   /* Forms */
   .form-group { margin-bottom: 14px; }
-  .form-label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
   .form-input, .form-select, .form-textarea {
     width: 100%;
     padding: 11px 13px;
@@ -485,7 +491,7 @@
     transition: all 0.25s;
   }
   .caixinha-card:hover { border-color: var(--border); transform: translateX(2px); }
-  .cx-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .cx-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
   .cx-name { font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; }
   .cx-percent { font-size: 12px; color: var(--primary-light); font-weight: 700; background: var(--primary-soft); padding: 3px 8px; border-radius: 8px; }
   .cx-percent.complete { background: var(--success-soft); color: var(--success); }
@@ -499,7 +505,7 @@
   .cx-bar-fill.complete { background: linear-gradient(90deg, var(--success), #00e89d); }
   .cx-values { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); }
   .cx-current { color: var(--success); font-weight: 700; font-size: 14px; }
-  .cx-actions { display: flex; gap: 6px; margin-top: 10px; }
+  .cx-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
 
   /* Transaction */
   .transaction {
@@ -529,22 +535,23 @@
   .tx-value.positive { color: var(--success); }
   .tx-value.negative { color: var(--danger); }
 
-  /* Conta (bills) */
+  /* Conta */
   .conta {
     background: var(--card);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius);
-    padding: 16px;
+    padding: 14px 16px;
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     gap: 14px;
     transition: all 0.25s;
     border-left: 4px solid var(--border);
+    flex-wrap: wrap;
   }
   .conta:hover { border-color: var(--border); }
   .conta.pending { border-left-color: var(--warning); }
-  .conta.paid { border-left-color: var(--success); opacity: 0.7; }
+  .conta.paid { border-left-color: var(--success); opacity: 0.75; }
   .conta.overdue { border-left-color: var(--danger); }
   .conta.receivable { border-left-color: var(--info); }
   .conta-icon {
@@ -557,7 +564,7 @@
     font-size: 22px;
     flex-shrink: 0;
   }
-  .conta-info { flex: 1; min-width: 0; }
+  .conta-info { flex: 1; min-width: 150px; }
   .conta-name { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
   .conta-meta { font-size: 12px; color: var(--text-muted); }
   .conta-value { font-weight: 700; font-size: 15px; }
@@ -612,34 +619,6 @@
   }
   .filter-chip:hover { color: var(--text); border-color: var(--border); }
   .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-  /* Tabs */
-  .tabs {
-    display: flex;
-    gap: 6px;
-    background: var(--bg-soft);
-    padding: 5px;
-    border-radius: 14px;
-    margin-bottom: 20px;
-    overflow-x: auto;
-    border: 1px solid var(--border-soft);
-  }
-  .tab {
-    flex: 1;
-    min-width: 100px;
-    padding: 11px 16px;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .tab.active { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(130,10,209,0.3); }
-  .tab:hover:not(.active) { color: var(--text); background: var(--card); }
 
   /* Tip Card */
   .tip-card {
@@ -762,7 +741,7 @@
   /* Print */
   @media print {
     body { background: white; color: black; }
-    .top-bar, .sidebar, .quick-actions, .icon-btn, .menu-panel, .modal-overlay, .toast, .btn { display: none !important; }
+    .top-bar, .sidebar, .quick-actions, .icon-btn, .menu-panel, .modal-overlay, .toast, .btn, .bottom-nav, footer { display: none !important; }
     .section, .stat-card, .card, .credit-card, .caixinha-card, .conta, .tip-card { background: white; color: black; border: 1px solid #ddd; }
     .balance-hero { background: #f0f0f0 !important; color: black; }
     .main-content { max-width: 100%; padding: 10px; }
@@ -831,6 +810,125 @@
   .badge-success { background: var(--success-soft); color: var(--success); }
   .badge-danger { background: var(--danger-soft); color: var(--danger); }
   .badge-warning { background: var(--warning-soft); color: var(--warning); }
+
+  /* Footer */
+  footer {
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border-soft);
+    padding: 16px 20px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: auto;
+  }
+  footer a { color: var(--primary-light); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer .footer-content { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; align-items: center; }
+  footer .footer-divider { color: var(--border); }
+
+  /* Notification dot */
+  .notif-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    background: var(--danger);
+    border-radius: 50%;
+    border: 2px solid var(--card);
+  }
+
+  /* Calendar */
+  .calendar-day {
+    background: var(--card-light);
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  .calendar-day:hover { border-color: var(--primary); }
+  .calendar-day.has-event { border-color: var(--warning); }
+  .calendar-day .day-num { font-size: 14px; font-weight: 600; }
+  .calendar-day .day-events { font-size: 10px; color: var(--warning); margin-top: 2px; }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--bg-soft);
+    padding: 5px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    border: 1px solid var(--border-soft);
+  }
+  .tab {
+    flex: 1;
+    min-width: 100px;
+    padding: 11px 16px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab.active { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(130,10,209,0.3); }
+  .tab:hover:not(.active) { color: var(--text); background: var(--card); }
+
+  /* Search */
+  .search-box {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+  }
+  .search-box input:focus { border-color: var(--primary); }
+  .search-box .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+  }
+
+  /* Toggle */
+  .toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: var(--card-light);
+    border-radius: 24px;
+    transition: 0.3s;
+  }
+  .toggle-slider:before {
+    content: '';
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+  .toggle input:checked + .toggle-slider { background: var(--primary); }
+  .toggle input:checked + .toggle-slider:before { transform: translateX(20px); }
 </style>
 </head>
 <body>
@@ -842,11 +940,17 @@
       <div class="logo-icon"></div>
       <h1>FinApp Pro</h1>
       <p>Controle financeiro inteligente</p>
+      <div class="version">v0.0.3 MVP</div>
     </div>
     <div class="user-list" id="userList"></div>
     <button class="add-user-btn" onclick="openAddUser()">
-      <span>➕</span> Adicionar novo usuário
+      <span>➕</span> Cadastrar novo usuário
     </button>
+    <div class="login-footer">
+      <div style="margin-bottom:6px">Desenvolvido por <strong>Walney Moreira Klein</strong></div>
+      <div><a href="mailto:walneyk@hotmail.com">walneyk@hotmail.com</a></div>
+      <div style="margin-top:6px"><a href="https://walneynf.github.io/finapp/" target="_blank">walneynf.github.io/finapp</a></div>
+    </div>
   </div>
 </div>
 
@@ -861,7 +965,8 @@
       </div>
     </div>
     <div class="top-actions">
-      <button class="icon-btn" onclick="openSearch()" title="Buscar">🔍</button>
+      <button class="icon-btn" onclick="openSearch()" title="Buscar" style="position:relative">🔍</button>
+      <button class="icon-btn" onclick="openNotifications()" title="Notificações" style="position:relative" id="notifBtn">🔔</button>
       <button class="icon-btn" onclick="openMenu()" title="Menu">☰</button>
     </div>
   </div>
@@ -870,22 +975,24 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Principal</div>
       <button class="sidebar-item active" data-page="dashboard"><span class="icon">📊</span> Visão Geral</button>
+      <button class="sidebar-item" data-page="accounts"><span class="icon">🏦</span> Contas</button>
       <button class="sidebar-item" data-page="cards"><span class="icon">💳</span> Cartões</button>
       <button class="sidebar-item" data-page="caixinhas"><span class="icon">🎯</span> Caixinhas</button>
-      <button class="sidebar-item" data-page="transactions"><span class="icon">💸</span> Transações</button>
-      <button class="sidebar-item" data-page="contas"><span class="icon">📋</span> Contas</button>
+      <button class="sidebar-item" data-page="transactions"><span class="icon"></span> Transações</button>
+      <button class="sidebar-item" data-page="contas"><span class="icon">📋</span> Contas a Pagar</button>
       
       <div class="sidebar-section">Planejamento</div>
-      <button class="sidebar-item" data-page="budgets"><span class="icon">📊</span> Orçamentos</button>
+      <button class="sidebar-item" data-page="budgets"><span class="icon"></span> Orçamentos</button>
       <button class="sidebar-item" data-page="goals"><span class="icon">🏆</span> Metas</button>
+      <button class="sidebar-item" data-page="calendar"><span class="icon"></span> Calendário</button>
       
       <div class="sidebar-section">Aprender</div>
-      <button class="sidebar-item" data-page="investments"><span class="icon">📈</span> Investimentos</button>
+      <button class="sidebar-item" data-page="investments"><span class="icon"></span> Investimentos</button>
       <button class="sidebar-item" data-page="education"><span class="icon"></span> Educação</button>
       
       <div class="sidebar-section">Sistema</div>
       <button class="sidebar-item" data-page="reports"><span class="icon"></span> Relatórios</button>
-      <button class="sidebar-item" data-page="settings"><span class="icon">⚙️</span> Configurações</button>
+      <button class="sidebar-item" data-page="settings"><span class="icon">️</span> Configurações</button>
     </aside>
 
     <main class="main-content" id="mainContent"></main>
@@ -906,105 +1013,45 @@
     <h3>Menu</h3>
     <button class="icon-btn" onclick="closeMenu()"></button>
   </div>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('dashboard'); closeMenu();">📊 Visão Geral</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('cards'); closeMenu();">💳 Cartões</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('caixinhas'); closeMenu();"> Caixinhas</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('transactions'); closeMenu();">💸 Transações</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('contas'); closeMenu();">📋 Contas</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('budgets'); closeMenu();">📊 Orçamentos</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('goals'); closeMenu();">🏆 Metas</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('investments'); closeMenu();"> Investimentos</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('education'); closeMenu();">🎓 Educação</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('reports'); closeMenu();">📈 Relatórios</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="exportJSON(); closeMenu();"> Exportar JSON</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="exportCSV(); closeMenu();">📥 Exportar CSV</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="document.getElementById('importFile').click(); closeMenu();">📤 Importar JSON</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="window.print(); closeMenu();">🖨️ Imprimir</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="shareWhatsApp(); closeMenu();"> WhatsApp</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--danger);width:100%;text-align:left;font-size:14px;" onclick="resetData(); closeMenu();">🗑️ Resetar Dados</button>
-  <button class="menu-item" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--warning);width:100%;text-align:left;font-size:14px;" onclick="logout(); closeMenu();">🚪 Sair</button>
+  <div id="menuItems"></div>
 </div>
 
 <input type="file" id="importFile" accept=".json" class="hidden" onchange="importJSON(event)">
 
-<script>
-// ============ DATA ============
-const STORAGE_KEY = 'finapp_pro_v2';
-const SESSION_KEY = 'finapp_session_v2';
+<!-- FOOTER -->
+<footer id="appFooter" class="hidden">
+  <div class="footer-content">
+    <span> <strong>FinApp Pro v0.0.3</strong></span>
+    <span class="footer-divider">|</span>
+    <span>Desenvolvido por <strong>Walney Moreira Klein</strong></span>
+    <span class="footer-divider">|</span>
+    <span><a href="mailto:walneyk@hotmail.com">walneyk@hotmail.com</a></span>
+    <span class="footer-divider">|</span>
+    <span><a href="https://walneynf.github.io/finapp/" target="_blank">walneynf.github.io/finapp</a></span>
+  </div>
+</footer>
 
-const DEFAULT_DATA = {
-  users: [
-    { id: 'u1', name: 'Eu', email: 'eu@finapp.com', role: 'Titular', color: '#820ad1' },
-    { id: 'u2', name: 'Esposa', email: 'esposa@finapp.com', role: 'Titular', color: '#e91e63' },
-    { id: 'u3', name: 'Filha', email: 'filha@finapp.com', role: 'Dependente', color: '#00bcd4' }
-  ],
-  categories: [
-    { id: 'c1', name: 'Alimentação', icon: '', color: '#ff6b6b' },
-    { id: 'c2', name: 'Transporte', icon: '🚗', color: '#4ecdc4' },
-    { id: 'c3', name: 'Moradia', icon: '🏠', color: '#45b7d1' },
-    { id: 'c4', name: 'Saúde', icon: '💊', color: '#96ceb4' },
-    { id: 'c5', name: 'Educação', icon: '📚', color: '#feca57' },
-    { id: 'c6', name: 'Lazer', icon: '🎮', color: '#ff9ff3' },
-    { id: 'c7', name: 'Salário', icon: '💼', color: '#00d084' },
-    { id: 'c8', name: 'Investimento', icon: '📈', color: '#54a0ff' },
-    { id: 'c9', name: 'Outros', icon: '📦', color: '#a29bfe' },
-    { id: 'c10', name: 'Supermercado', icon: '', color: '#fd79a8' },
-    { id: 'c11', name: 'Utilidades', icon: '💡', color: '#fdcb6e' }
-  ],
-  cards: [
-    { id: 'cd1', userId: 'u1', name: 'Nubank', brand: 'nubank', number: '****4521', limit: 8000, used: 2450, closing: 15, due: 25 },
-    { id: 'cd2', userId: 'u1', name: 'Itaú Visa', brand: 'visa', number: '****8832', limit: 12000, used: 5680, closing: 20, due: 5 },
-    { id: 'cd3', userId: 'u2', name: 'Mastercard', brand: 'mastercard', number: '****1234', limit: 6000, used: 1820, closing: 10, due: 20 }
-  ],
-  caixinhas: [
-    { id: 'cx1', userId: 'u1', name: 'Viagem de julho', target: 4000, current: 2800, icon: '✈️', transactions: [
-      { id: 'd1', type: 'deposit', value: 1000, date: '2026-08-15', desc: 'Depósito inicial' },
-      { id: 'd2', type: 'deposit', value: 800, date: '2026-09-01', desc: 'Economia mensal' },
-      { id: 'd3', type: 'deposit', value: 1000, date: '2026-09-15', desc: 'Bônus trabalho' }
-    ]},
-    { id: 'cx2', userId: 'u1', name: 'Reserva de emergência', target: 10000, current: 6500, icon: '🛡️', transactions: [
-      { id: 'd4', type: 'deposit', value: 5000, date: '2026-07-01', desc: 'Depósito inicial' },
-      { id: 'd5', type: 'deposit', value: 1500, date: '2026-09-01', desc: 'Aporte mensal' }
-    ]},
-    { id: 'cx3', userId: 'u1', name: 'Notebook da Lia', target: 4500, current: 4050, icon: '💻', transactions: [] },
-    { id: 'cx4', userId: 'u2', name: 'IPVA 2026', target: 2000, current: 700, icon: '🚗', transactions: [] }
-  ],
-  transactions: [
-    { id: 't1', userId: 'u1', name: 'Mercado Livre', category: 'c9', value: -159, date: '2026-09-28', type: 'expense', card: 'cd1' },
-    { id: 't2', userId: 'u1', name: 'iFood', category: 'c1', value: -67, date: '2026-09-27', type: 'expense', card: 'cd1' },
-    { id: 't3', userId: 'u1', name: 'Salário', category: 'c7', value: 8500, date: '2026-09-25', type: 'income' },
-    { id: 't4', userId: 'u1', name: 'Uber', category: 'c2', value: -28, date: '2026-09-26', type: 'expense', card: 'cd2' },
-    { id: 't5', userId: 'u1', name: 'Netflix', category: 'c6', value: -55.90, date: '2026-09-24', type: 'expense', card: 'cd1' },
-    { id: 't6', userId: 'u2', name: 'Farmácia', category: 'c4', value: -120, date: '2026-09-28', type: 'expense', card: 'cd3' },
-    { id: 't7', userId: 'u1', name: 'Depósito caixinha', category: 'c8', value: -500, date: '2026-09-23', type: 'expense' },
-    { id: 't8', userId: 'u1', name: 'Freelance', category: 'c7', value: 1200, date: '2026-09-20', type: 'income' },
-    { id: 't9', userId: 'u1', name: 'Supermercado', category: 'c10', value: -420, date: '2026-09-22', type: 'expense', card: 'cd2' },
-    { id: 't10', userId: 'u1', name: 'Aluguel', category: 'c3', value: -1800, date: '2026-09-10', type: 'expense' },
-    { id: 't11', userId: 'u1', name: 'Luz', category: 'c11', value: -180, date: '2026-09-15', type: 'expense' },
-    { id: 't12', userId: 'u1', name: 'Internet', category: 'c11', value: -99.90, date: '2026-09-15', type: 'expense' }
-  ],
-  contas: [
-    { id: 'ct1', userId: 'u1', name: 'Aluguel', value: 1800, dueDate: '2026-10-10', category: 'c3', type: 'payable', status: 'pending', icon: '', recurring: true },
-    { id: 'ct2', userId: 'u1', name: 'Energia', value: 180, dueDate: '2026-10-15', category: 'c11', type: 'payable', status: 'pending', icon: '💡', recurring: true },
-    { id: 'ct3', userId: 'u1', name: 'Internet', value: 99.90, dueDate: '2026-10-15', category: 'c11', type: 'payable', status: 'pending', icon: '📶', recurring: true },
-    { id: 'ct4', userId: 'u1', name: 'Cartão Nubank', value: 2450, dueDate: '2026-10-25', category: 'c9', type: 'payable', status: 'pending', icon: '💳', recurring: true },
-    { id: 'ct5', userId: 'u1', name: 'Salário', value: 8500, dueDate: '2026-10-05', category: 'c7', type: 'receivable', status: 'pending', icon: '💼', recurring: true },
-    { id: 'ct6', userId: 'u1', name: 'Freelance Projeto X', value: 2000, dueDate: '2026-10-30', category: 'c7', type: 'receivable', status: 'pending', icon: '💻', recurring: false },
-    { id: 'ct7', userId: 'u1', name: 'Seguro Carro', value: 350, dueDate: '2026-09-20', category: 'c2', type: 'payable', status: 'overdue', icon: '', recurring: true }
-  ],
-  budgets: [
-    { id: 'b1', userId: 'u1', category: 'c1', limit: 800 },
-    { id: 'b2', userId: 'u1', category: 'c2', limit: 400 },
-    { id: 'b3', userId: 'u1', category: 'c6', limit: 300 },
-    { id: 'b4', userId: 'u1', category: 'c10', limit: 1200 },
-    { id: 'b5', userId: 'u1', category: 'c11', limit: 500 }
-  ],
-  goals: [
-    { id: 'g1', userId: 'u1', name: 'Viagem Europa', icon: '🌍', target: 15000, current: 4500, deadline: '2027-06-01' },
-    { id: 'g2', userId: 'u1', name: 'Entrada Apartamento', icon: '🏢', target: 80000, current: 22000, deadline: '2028-12-01' },
-    { id: 'g3', userId: 'u2', name: 'Curso de Inglês', icon: '🇧', target: 3000, current: 1800, deadline: '2027-03-01' }
-  ]
-};
+<script>
+// ============ DATA STRUCTURE ============
+const STORAGE_KEY = 'finapp_pro_v003';
+const SESSION_KEY = 'finapp_session_v003';
+
+const GLOBAL_CATEGORIES = [
+  { id: 'c1', name: 'Alimentação', icon: '', color: '#ff6b6b' },
+  { id: 'c2', name: 'Transporte', icon: '🚗', color: '#4ecdc4' },
+  { id: 'c3', name: 'Moradia', icon: '🏠', color: '#45b7d1' },
+  { id: 'c4', name: 'Saúde', icon: '', color: '#96ceb4' },
+  { id: 'c5', name: 'Educação', icon: '📚', color: '#feca57' },
+  { id: 'c6', name: 'Lazer', icon: '🎮', color: '#ff9ff3' },
+  { id: 'c7', name: 'Salário', icon: '💼', color: '#00d084' },
+  { id: 'c8', name: 'Investimento', icon: '📈', color: '#54a0ff' },
+  { id: 'c9', name: 'Outros', icon: '📦', color: '#a29bfe' },
+  { id: 'c10', name: 'Supermercado', icon: '', color: '#fd79a8' },
+  { id: 'c11', name: 'Utilidades', icon: '💡', color: '#fdcb6e' },
+  { id: 'c12', name: 'Assinaturas', icon: '📱', color: '#6c5ce7' },
+  { id: 'c13', name: 'Vestuário', icon: '👕', color: '#e17055' },
+  { id: 'c14', name: 'Beleza', icon: '💄', color: '#fd79a8' }
+];
 
 const INVESTMENT_TIPS = [
   { tag: 'investment', title: 'Tesouro Direto', desc: 'Comece com Tesouro Selic para reserva de emergência. Rentabilidade atrelada à taxa básica de juros, com liquidez diária e baixo risco.' },
@@ -1030,7 +1077,65 @@ const EDUCATION_TIPS = [
   { tag: 'education', title: 'Independência Financeira', desc: 'Quando seus investimentos geram renda suficiente para viver, você é financeiramente independente. Calcule seu número.' }
 ];
 
-let data = {};
+// Default user data template
+function createDefaultUserData(userId) {
+  return {
+    transactions: [
+      { id: 't1', name: 'Salário', category: 'c7', value: 8500, date: '2026-09-25', type: 'income', account: 'acc1' },
+      { id: 't2', name: 'Freelance', category: 'c7', value: 1200, date: '2026-09-20', type: 'income', account: 'acc1' },
+      { id: 't3', name: 'Supermercado', category: 'c10', value: -420, date: '2026-09-22', type: 'expense', card: 'cd1' },
+      { id: 't4', name: 'Aluguel', category: 'c3', value: -1800, date: '2026-09-10', type: 'expense', account: 'acc1' },
+      { id: 't5', name: 'Luz', category: 'c11', value: -180, date: '2026-09-15', type: 'expense', account: 'acc1' },
+      { id: 't6', name: 'Internet', category: 'c11', value: -99.90, date: '2026-09-15', type: 'expense', account: 'acc1' },
+      { id: 't7', name: 'iFood', category: 'c1', value: -67, date: '2026-09-27', type: 'expense', card: 'cd1' },
+      { id: 't8', name: 'Netflix', category: 'c12', value: -55.90, date: '2026-09-24', type: 'expense', card: 'cd1' },
+      { id: 't9', name: 'Uber', category: 'c2', value: -28, date: '2026-09-26', type: 'expense', card: 'cd2' }
+    ],
+    accounts: [
+      { id: 'acc1', name: 'Conta Corrente', type: 'checking', balance: 5200, color: '#820ad1', icon: '🏦' },
+      { id: 'acc2', name: 'Poupança', type: 'savings', balance: 12000, color: '#00d084', icon: '💰' },
+      { id: 'acc3', name: 'Carteira', type: 'cash', balance: 350, color: '#ffa502', icon: '💵' }
+    ],
+    cards: [
+      { id: 'cd1', name: 'Nubank', brand: 'nubank', number: '****4521', limit: 8000, used: 2450, closing: 15, due: 25 },
+      { id: 'cd2', name: 'Itaú Visa', brand: 'visa', number: '****8832', limit: 12000, used: 5680, closing: 20, due: 5 }
+    ],
+    caixinhas: [
+      { id: 'cx1', name: 'Viagem de julho', target: 4000, current: 2800, icon: '✈️', transactions: [
+        { id: 'd1', type: 'deposit', value: 1000, date: '2026-08-15', desc: 'Depósito inicial' },
+        { id: 'd2', type: 'deposit', value: 800, date: '2026-09-01', desc: 'Economia mensal' },
+        { id: 'd3', type: 'deposit', value: 1000, date: '2026-09-15', desc: 'Bônus trabalho' }
+      ]},
+      { id: 'cx2', name: 'Reserva de emergência', target: 10000, current: 6500, icon: '️', transactions: [
+        { id: 'd4', type: 'deposit', value: 5000, date: '2026-07-01', desc: 'Depósito inicial' },
+        { id: 'd5', type: 'deposit', value: 1500, date: '2026-09-01', desc: 'Aporte mensal' }
+      ]},
+      { id: 'cx3', name: 'Notebook', target: 4500, current: 4050, icon: '💻', transactions: [] }
+    ],
+    contas: [
+      { id: 'ct1', name: 'Aluguel', value: 1800, dueDate: '2026-10-10', category: 'c3', type: 'payable', status: 'pending', icon: '🏠', recurring: true },
+      { id: 'ct2', name: 'Energia', value: 180, dueDate: '2026-10-15', category: 'c11', type: 'payable', status: 'pending', icon: '💡', recurring: true },
+      { id: 'ct3', name: 'Internet', value: 99.90, dueDate: '2026-10-15', category: 'c11', type: 'payable', status: 'pending', icon: '📶', recurring: true },
+      { id: 'ct4', name: 'Cartão Nubank', value: 2450, dueDate: '2026-10-25', category: 'c9', type: 'payable', status: 'pending', icon: '💳', recurring: true },
+      { id: 'ct5', name: 'Salário', value: 8500, dueDate: '2026-10-05', category: 'c7', type: 'receivable', status: 'pending', icon: '💼', recurring: true },
+      { id: 'ct6', name: 'Freelance Projeto X', value: 2000, dueDate: '2026-10-30', category: 'c7', type: 'receivable', status: 'pending', icon: '💻', recurring: false }
+    ],
+    budgets: [
+      { id: 'b1', category: 'c1', limit: 800 },
+      { id: 'b2', category: 'c2', limit: 400 },
+      { id: 'b3', category: 'c6', limit: 300 },
+      { id: 'b4', category: 'c10', limit: 1200 },
+      { id: 'b5', category: 'c11', limit: 500 }
+    ],
+    goals: [
+      { id: 'g1', name: 'Viagem Europa', icon: '🌍', target: 15000, current: 4500, deadline: '2027-06-01' },
+      { id: 'g2', name: 'Entrada Apartamento', icon: '', target: 80000, current: 22000, deadline: '2028-12-01' }
+    ],
+    customCategories: []
+  };
+}
+
+let data = { users: [], user_data: {} };
 let currentUser = null;
 let currentPage = 'dashboard';
 let currentFilter = 'all';
@@ -1040,10 +1145,35 @@ let charts = {};
 function loadData() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
-    try { data = JSON.parse(saved); } catch(e) { data = JSON.parse(JSON.stringify(DEFAULT_DATA)); }
+    try { 
+      data = JSON.parse(saved);
+      // Ensure structure
+      if (!data.user_data) data.user_data = {};
+      if (!data.users) data.users = [];
+    } catch(e) { 
+      initDefaultData();
+    }
   } else {
-    data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    initDefaultData();
   }
+  saveData();
+}
+
+function initDefaultData() {
+  data = { users: [], user_data: {} };
+  
+  // 3 default users
+  const defaultUsers = [
+    { id: 'u1', name: 'Walney', email: 'walneyk@hotmail.com', role: 'Administrador', color: '#820ad1', password: '123456', createdAt: new Date().toISOString() },
+    { id: 'u2', name: 'Esposa', email: 'esposa@finapp.com', role: 'Titular', color: '#e91e63', password: '123456', createdAt: new Date().toISOString() },
+    { id: 'u3', name: 'Filha', email: 'filha@finapp.com', role: 'Dependente', color: '#00bcd4', password: '123456', createdAt: new Date().toISOString() }
+  ];
+  
+  defaultUsers.forEach(u => {
+    data.users.push(u);
+    data.user_data[u.id] = createDefaultUserData(u.id);
+  });
+  
   saveData();
 }
 
@@ -1055,24 +1185,33 @@ function loadSession() {
   const s = localStorage.getItem(SESSION_KEY);
   if (s) {
     currentUser = data.users.find(u => u.id === s);
-    if (currentUser) showApp();
+    if (currentUser) {
+      if (!data.user_data[currentUser.id]) {
+        data.user_data[currentUser.id] = createDefaultUserData(currentUser.id);
+        saveData();
+      }
+      showApp();
+    }
   }
 }
 
 function showLogin() {
   document.getElementById('loginScreen').classList.remove('hidden');
   document.getElementById('app').classList.add('hidden');
+  document.getElementById('appFooter').classList.add('hidden');
   renderUserList();
 }
 
 function showApp() {
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
+  document.getElementById('appFooter').classList.remove('hidden');
   document.getElementById('topAvatar').textContent = currentUser.name[0].toUpperCase();
   document.getElementById('topAvatar').style.background = `linear-gradient(135deg, ${currentUser.color}, ${currentUser.color}dd)`;
   document.getElementById('topName').textContent = currentUser.name;
   document.getElementById('topRole').textContent = currentUser.role;
   switchPage('dashboard');
+  updateNotifBadge();
 }
 
 function renderUserList() {
@@ -1082,14 +1221,27 @@ function renderUserList() {
       <div class="user-avatar" style="background: linear-gradient(135deg, ${u.color}, ${u.color}dd)">${u.name[0].toUpperCase()}</div>
       <div class="user-info">
         <h3>${u.name}</h3>
-        <p>${u.role} • ${u.email}</p>
+        <p>${u.email}</p>
       </div>
+      <span class="user-badge-role">${u.role}</span>
     </div>
   `).join('');
 }
 
 function loginUser(id) {
-  currentUser = data.users.find(u => u.id === id);
+  const user = data.users.find(u => u.id === id);
+  // Simple password prompt for MVP
+  const pwd = prompt(`Senha para ${user.name}:\n(Dica: 123456)`);
+  if (pwd === null) return;
+  if (pwd !== user.password) {
+    toast('❌ Senha incorreta!');
+    return;
+  }
+  currentUser = user;
+  if (!data.user_data[currentUser.id]) {
+    data.user_data[currentUser.id] = createDefaultUserData(currentUser.id);
+    saveData();
+  }
   localStorage.setItem(SESSION_KEY, id);
   showApp();
 }
@@ -1110,6 +1262,7 @@ function switchPage(page) {
   document.querySelectorAll('.sidebar-item').forEach(b => b.classList.toggle('active', b.dataset.page === page));
   document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.toggle('active', b.dataset.page === page));
   renderPage();
+  window.scrollTo(0, 0);
 }
 
 // ============ RENDER PAGES ============
@@ -1118,12 +1271,14 @@ function renderPage() {
   destroyCharts();
   switch(currentPage) {
     case 'dashboard': main.innerHTML = renderDashboard(); renderDashboardCharts(); break;
+    case 'accounts': main.innerHTML = renderAccounts(); break;
     case 'cards': main.innerHTML = renderCards(); break;
     case 'caixinhas': main.innerHTML = renderCaixinhas(); break;
     case 'transactions': main.innerHTML = renderTransactions(); break;
     case 'contas': main.innerHTML = renderContas(); break;
     case 'budgets': main.innerHTML = renderBudgets(); break;
     case 'goals': main.innerHTML = renderGoals(); break;
+    case 'calendar': main.innerHTML = renderCalendar(); break;
     case 'investments': main.innerHTML = renderInvestments(); break;
     case 'education': main.innerHTML = renderEducation(); break;
     case 'reports': main.innerHTML = renderReports(); renderReportCharts(); break;
@@ -1143,14 +1298,18 @@ function formatMoney(v) {
 }
 
 function getUserData() {
-  return {
-    transactions: data.transactions.filter(t => t.userId === currentUser.id),
-    cards: data.cards.filter(c => c.userId === currentUser.id),
-    caixinhas: data.caixinhas.filter(c => c.userId === currentUser.id),
-    contas: data.contas.filter(c => c.userId === currentUser.id),
-    budgets: data.budgets.filter(b => b.userId === currentUser.id),
-    goals: data.goals.filter(g => g.userId === currentUser.id)
-  };
+  if (!currentUser || !data.user_data[currentUser.id]) return createDefaultUserData('temp');
+  return data.user_data[currentUser.id];
+}
+
+function saveUserData() {
+  if (currentUser) {
+    saveData();
+  }
+}
+
+function getAllCategories() {
+  return [...GLOBAL_CATEGORIES, ...(getUserData().customCategories || [])];
 }
 
 function getMonthTransactions() {
@@ -1175,6 +1334,21 @@ function getScore() {
   return Math.min(100, Math.max(0, Math.round(score)));
 }
 
+function updateNotifBadge() {
+  const ud = getUserData();
+  const overdue = ud.contas.filter(c => c.status === 'overdue' || (c.status === 'pending' && c.type === 'payable' && new Date(c.dueDate) < new Date())).length;
+  const btn = document.getElementById('notifBtn');
+  if (btn) {
+    const existing = btn.querySelector('.notif-dot');
+    if (existing) existing.remove();
+    if (overdue > 0) {
+      const dot = document.createElement('div');
+      dot.className = 'notif-dot';
+      btn.appendChild(dot);
+    }
+  }
+}
+
 // ============ DASHBOARD ============
 function renderDashboard() {
   const ud = getUserData();
@@ -1185,14 +1359,16 @@ function renderDashboard() {
   const score = getScore();
   
   const pendingContas = ud.contas.filter(c => c.status === 'pending' && c.type === 'payable');
-  const overdueContas = ud.contas.filter(c => c.status === 'overdue');
-  const upcomingContas = ud.contas.filter(c => c.status === 'pending' && c.type === 'payable' && new Date(c.dueDate) <= new Date(Date.now() + 7 * 86400000));
+  const overdueContas = ud.contas.filter(c => c.status === 'overdue' || (c.status === 'pending' && c.type === 'payable' && new Date(c.dueDate) < new Date()));
+  const upcomingContas = ud.contas.filter(c => c.status === 'pending' && c.type === 'payable' && new Date(c.dueDate) <= new Date(Date.now() + 7 * 86400000) && new Date(c.dueDate) >= new Date());
+
+  const totalBalance = ud.accounts.reduce((s, a) => s + a.balance, 0);
 
   return `
     <div class="balance-hero">
-      <div class="label">Saldo do mês</div>
+      <div class="label">Saldo consolidado do mês</div>
       <div class="value">${formatMoney(savings)}</div>
-      <div class="sub">Atualizado ${new Date().toLocaleDateString('pt-BR')} • Score: ${score}/100</div>
+      <div class="sub">Atualizado ${new Date().toLocaleDateString('pt-BR')} • Score: ${score}/100 • Patrimônio: ${formatMoney(totalBalance)}</div>
     </div>
 
     <div class="grid grid-4" style="margin-bottom:20px;">
@@ -1212,7 +1388,7 @@ function renderDashboard() {
         <div class="stat-change">da renda</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">⚠️ Contas pendentes</div>
+        <div class="stat-label">️ Contas pendentes</div>
         <div class="stat-value">${pendingContas.length}</div>
         <div class="stat-change">${formatMoney(pendingContas.reduce((s,c)=>s+c.value,0))}</div>
       </div>
@@ -1258,17 +1434,26 @@ function renderDashboard() {
     <div class="grid grid-2">
       <div class="section">
         <div class="section-header">
+          <div class="section-title">🏦 Minhas Contas</div>
+          <button class="section-link" onclick="switchPage('accounts')">Ver todas →</button>
+        </div>
+        ${ud.accounts.length ? ud.accounts.map(a => `
+          <div class="transaction">
+            <div class="tx-icon" style="background:${a.color}22">${a.icon}</div>
+            <div class="tx-info">
+              <div class="tx-name">${a.name}</div>
+              <div class="tx-meta">${a.type === 'checking' ? 'Conta Corrente' : a.type === 'savings' ? 'Poupança' : 'Carteira'}</div>
+            </div>
+            <div class="tx-value positive">${formatMoney(a.balance)}</div>
+          </div>
+        `).join('') : '<div class="empty"><div class="icon">🏦</div>Nenhuma conta</div>'}
+      </div>
+      <div class="section">
+        <div class="section-header">
           <div class="section-title">💳 Cartões</div>
           <button class="section-link" onclick="switchPage('cards')">Ver todos →</button>
         </div>
         ${ud.cards.length ? ud.cards.slice(0,2).map(c => renderCardMini(c)).join('') : '<div class="empty"><div class="icon">💳</div>Nenhum cartão</div>'}
-      </div>
-      <div class="section">
-        <div class="section-header">
-          <div class="section-title">🎯 Caixinhas</div>
-          <button class="section-link" onclick="switchPage('caixinhas')">Ver todas →</button>
-        </div>
-        ${ud.caixinhas.length ? ud.caixinhas.slice(0,2).map(c => renderCaixinhaMini(c)).join('') : '<div class="empty"><div class="icon">🎯</div>Nenhuma caixinha</div>'}
       </div>
     </div>
 
@@ -1285,7 +1470,7 @@ function renderDashboard() {
         <button class="section-link" onclick="switchPage('transactions')">Ver todas →</button>
       </div>
       ${(() => {
-        const recent = ud.transactions.sort((a,b) => b.date.localeCompare(a.date)).slice(0, 6);
+        const recent = [...ud.transactions].sort((a,b) => b.date.localeCompare(a.date)).slice(0, 6);
         return recent.length ? recent.map(t => renderTransactionItem(t)).join('') : '<div class="empty"><div class="icon"></div>Nenhuma transação</div>';
       })()}
     </div>
@@ -1308,7 +1493,6 @@ function renderDashboardCharts() {
   const ud = getUserData();
   const monthTx = getMonthTransactions();
   
-  // Flow chart
   const flowCtx = document.getElementById('dashFlowChart');
   if (flowCtx) {
     const income = monthTx.filter(t => t.type === 'income').reduce((s, t) => s + t.value, 0);
@@ -1331,7 +1515,6 @@ function renderDashboardCharts() {
     });
   }
 
-  // Category chart
   const catCtx = document.getElementById('dashCatChart');
   if (catCtx) {
     const byCat = {};
@@ -1339,17 +1522,18 @@ function renderDashboardCharts() {
       byCat[t.category] = (byCat[t.category] || 0) + Math.abs(t.value);
     });
     const entries = Object.entries(byCat).sort((a,b) => b[1] - a[1]).slice(0, 6);
+    const allCats = getAllCategories();
     charts.dashCat = new Chart(catCtx, {
       type: 'bar',
       data: {
         labels: entries.map(([id]) => {
-          const c = data.categories.find(x => x.id === id);
+          const c = allCats.find(x => x.id === id);
           return c ? c.icon + ' ' + c.name : 'Outros';
         }),
         datasets: [{
           data: entries.map(([,v]) => v),
           backgroundColor: entries.map(([id]) => {
-            const c = data.categories.find(x => x.id === id);
+            const c = allCats.find(x => x.id === id);
             return c ? c.color : '#888';
           }),
           borderRadius: 6
@@ -1366,6 +1550,42 @@ function renderDashboardCharts() {
       }
     });
   }
+}
+
+// ============ ACCOUNTS ============
+function renderAccounts() {
+  const ud = getUserData();
+  const total = ud.accounts.reduce((s, a) => s + a.balance, 0);
+  return `
+    <div class="balance-hero" style="padding:24px">
+      <div class="label">Patrimônio Total</div>
+      <div class="value" style="font-size:36px">${formatMoney(total)}</div>
+      <div class="sub">${ud.accounts.length} conta(s)</div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">🏦 Minhas Contas</div>
+        <button class="btn btn-primary" onclick="openAccountModal()">+ Nova Conta</button>
+      </div>
+      ${ud.accounts.length ? ud.accounts.map(a => `
+        <div class="transaction" style="padding:16px 0">
+          <div class="tx-icon" style="background:${a.color}22;font-size:24px">${a.icon}</div>
+          <div class="tx-info">
+            <div class="tx-name">${a.name}</div>
+            <div class="tx-meta">${a.type === 'checking' ? 'Conta Corrente' : a.type === 'savings' ? 'Poupança' : a.type === 'investment' ? 'Investimento' : 'Carteira'}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="tx-value positive" style="font-size:18px">${formatMoney(a.balance)}</div>
+            <div style="display:flex;gap:4px;margin-top:6px">
+              <button class="btn btn-sm btn-success" onclick="openAccountDeposit('${a.id}')">+</button>
+              <button class="btn btn-sm btn-warning" onclick="openAccountWithdraw('${a.id}')">-</button>
+              <button class="btn btn-sm btn-ghost" onclick="openAccountModal('${a.id}')">️</button>
+            </div>
+          </div>
+        </div>
+      `).join('') : '<div class="empty"><div class="icon">🏦</div>Nenhuma conta cadastrada</div>'}
+    </div>
+  `;
 }
 
 // ============ CARDS ============
@@ -1464,10 +1684,26 @@ function renderCardFull(c) {
 // ============ CAIXINHAS ============
 function renderCaixinhas() {
   const ud = getUserData();
+  const totalSaved = ud.caixinhas.reduce((s, c) => s + c.current, 0);
+  const totalTarget = ud.caixinhas.reduce((s, c) => s + c.target, 0);
   return `
+    <div class="grid grid-3" style="margin-bottom:16px">
+      <div class="stat-card">
+        <div class="stat-label">🎯 Total em Caixinhas</div>
+        <div class="stat-value" style="color:var(--success);font-size:22px">${formatMoney(totalSaved)}</div>
+      </div>
+      <div class="stat-card savings">
+        <div class="stat-label"> Meta Total</div>
+        <div class="stat-value" style="font-size:22px">${formatMoney(totalTarget)}</div>
+      </div>
+      <div class="stat-card income">
+        <div class="stat-label">📈 Progresso Geral</div>
+        <div class="stat-value" style="font-size:22px;color:var(--primary-light)">${totalTarget > 0 ? ((totalSaved/totalTarget)*100).toFixed(0) : 0}%</div>
+      </div>
+    </div>
     <div class="section">
       <div class="section-header">
-        <div class="section-title">🎯 Minhas Caixinhas</div>
+        <div class="section-title"> Minhas Caixinhas</div>
         <button class="btn btn-primary" onclick="openCaixinhaModal()">+ Nova Caixinha</button>
       </div>
       ${ud.caixinhas.length ? ud.caixinhas.map(c => renderCaixinhaFull(c)).join('') : '<div class="empty"><div class="icon">🎯</div>Nenhuma caixinha</div>'}
@@ -1498,17 +1734,17 @@ function renderCaixinhaFull(c) {
   const complete = pct >= 100;
   const transactions = c.transactions || [];
   return `
-    <div class="caixinha-card" style="padding:20px;">
+    <div class="caixinha-card" style="padding:20px">
       <div class="cx-header">
         <div class="cx-name" style="font-size:16px">${c.icon} ${c.name}</div>
-        <div style="display:flex;gap:6px">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
           <button class="btn btn-sm btn-success" onclick="openCaixinhaDeposit('${c.id}')">+ Depositar</button>
           <button class="btn btn-sm btn-warning" onclick="openCaixinhaWithdraw('${c.id}')">- Resgatar</button>
           <button class="btn btn-sm btn-ghost" onclick="openCaixinhaModal('${c.id}')">✏️</button>
         </div>
       </div>
       <div class="cx-bar" style="height:10px;margin:12px 0"><div class="cx-bar-fill ${complete ? 'complete' : ''}" style="width:${pct}%"></div></div>
-      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px;flex-wrap:wrap;gap:10px">
         <div>
           <div style="font-size:12px;color:var(--text-muted)">Atual</div>
           <div class="cx-current" style="font-size:20px">${formatMoney(c.current)}</div>
@@ -1544,8 +1780,7 @@ function renderCaixinhaFull(c) {
 // ============ TRANSACTIONS ============
 function renderTransactions() {
   const ud = getUserData();
-  const cats = data.categories;
-  document.getElementById('mainContent').querySelectorAll?.('.filter-chip')?.forEach?.(() => {});
+  const cats = getAllCategories();
   
   let tx = [...ud.transactions];
   if (currentFilter !== 'all') tx = tx.filter(t => t.category === currentFilter);
@@ -1556,6 +1791,10 @@ function renderTransactions() {
       <div class="section-header">
         <div class="section-title">💸 Transações</div>
         <button class="btn btn-primary" onclick="openTransactionModal()">+ Nova</button>
+      </div>
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="txSearch" placeholder="Buscar transações..." oninput="filterTransactions()">
       </div>
       <div class="filter-bar">
         <div class="filter-chip ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">Todas</div>
@@ -1575,21 +1814,35 @@ function renderTransactions() {
           <div style="font-size:18px;font-weight:700">${formatMoney(tx.reduce((s,t)=>s+t.value,0))}</div>
         </div>
       </div>
-      ${tx.length ? tx.map(t => renderTransactionItem(t, true)).join('') : '<div class="empty"><div class="icon">💸</div>Nenhuma transação encontrada</div>'}
+      <div id="txList">
+        ${tx.length ? tx.map(t => renderTransactionItem(t, true)).join('') : '<div class="empty"><div class="icon">💸</div>Nenhuma transação encontrada</div>'}
+      </div>
     </div>
   `;
 }
 
+function filterTransactions() {
+  const q = document.getElementById('txSearch').value.toLowerCase();
+  const ud = getUserData();
+  let tx = [...ud.transactions];
+  if (currentFilter !== 'all') tx = tx.filter(t => t.category === currentFilter);
+  if (q) tx = tx.filter(t => t.name.toLowerCase().includes(q));
+  tx.sort((a, b) => b.date.localeCompare(a.date));
+  document.getElementById('txList').innerHTML = tx.length ? tx.map(t => renderTransactionItem(t, true)).join('') : '<div class="empty"><div class="icon">💸</div>Nenhuma transação encontrada</div>';
+}
+
 function renderTransactionItem(t, showActions = false) {
-  const cat = data.categories.find(c => c.id === t.category);
+  const allCats = getAllCategories();
+  const cat = allCats.find(c => c.id === t.category);
   const icon = cat ? cat.icon : '📦';
   const isPos = t.value > 0;
-  const card = data.cards.find(c => c.id === t.card);
+  const card = data.user_data[currentUser.id]?.cards.find(c => c.id === t.card);
+  const account = data.user_data[currentUser.id]?.accounts.find(a => a.id === t.account);
   return `
     <div class="transaction">
       <div class="tx-icon" style="background:${cat ? cat.color + '22' : 'var(--card-light)'}">${icon}</div>
       <div class="tx-info">
-        <div class="tx-name">${t.name} ${card ? `<span class="badge badge-primary">${card.name}</span>` : ''}</div>
+        <div class="tx-name">${t.name} ${card ? `<span class="badge badge-primary">${card.name}</span>` : ''} ${account ? `<span class="badge badge-success">${account.name}</span>` : ''}</div>
         <div class="tx-meta">${cat ? cat.name : 'Sem categoria'} • ${new Date(t.date).toLocaleDateString('pt-BR')}</div>
       </div>
       <div class="tx-value ${isPos ? 'positive' : 'negative'}">${isPos ? '+' : ''}${formatMoney(t.value)}</div>
@@ -1614,7 +1867,7 @@ function renderContas() {
   return `
     <div class="grid grid-2" style="margin-bottom:16px">
       <div class="stat-card expense">
-        <div class="stat-label">📋 Contas a Pagar</div>
+        <div class="stat-label"> Contas a Pagar</div>
         <div class="stat-value" style="color:var(--danger)">${formatMoney(totalPayable)}</div>
         <div class="stat-change">${payable.filter(c=>c.status==='pending').length} pendentes</div>
       </div>
@@ -1630,7 +1883,7 @@ function renderContas() {
         <div class="section-title">📤 Contas a Pagar</div>
         <button class="btn btn-primary" onclick="openContaModal('payable')">+ Nova</button>
       </div>
-      ${payable.length ? payable.map(c => renderContaItem(c)).join('') : '<div class="empty"><div class="icon">📤</div>Nenhuma conta a pagar</div>'}
+      ${payable.length ? payable.map(c => renderContaItem(c)).join('') : '<div class="empty"><div class="icon"></div>Nenhuma conta a pagar</div>'}
     </div>
 
     <div class="section">
@@ -1647,7 +1900,8 @@ function renderContaItem(c) {
   const due = new Date(c.dueDate);
   const now = new Date();
   const daysLeft = Math.ceil((due - now) / 86400000);
-  const cat = data.categories.find(x => x.id === c.category);
+  const allCats = getAllCategories();
+  const cat = allCats.find(x => x.id === c.category);
   let statusClass = 'pending';
   let statusText = 'Pendente';
   if (c.status === 'paid') { statusClass = 'paid'; statusText = 'Paga'; }
@@ -1657,7 +1911,7 @@ function renderContaItem(c) {
 
   return `
     <div class="conta ${statusClass} ${c.type}">
-      <div class="conta-icon">${c.icon || '📄'}</div>
+      <div class="conta-icon">${c.icon || ''}</div>
       <div class="conta-info">
         <div class="conta-name">${c.name} ${c.recurring ? '<span class="badge badge-primary">Recorrente</span>' : ''}</div>
         <div class="conta-meta">${cat ? cat.name : ''} • ${new Date(c.dueDate).toLocaleDateString('pt-BR')}</div>
@@ -1665,9 +1919,9 @@ function renderContaItem(c) {
       <div class="conta-value" style="color:${c.type === 'receivable' ? 'var(--success)' : 'var(--text)'}">${formatMoney(c.value)}</div>
       <span class="conta-status status-${statusClass}">${statusText}</span>
       <div style="display:flex;gap:4px">
-        ${c.status !== 'paid' ? `<button class="btn btn-sm btn-success" onclick="markContaPaid('${c.id}')">✓</button>` : ''}
-        <button class="btn btn-sm btn-ghost" onclick="openContaModal(null, '${c.id}')">✏️</button>
-        <button class="btn btn-sm btn-ghost" onclick="deleteConta('${c.id}')" style="color:var(--danger)">🗑️</button>
+        ${c.status !== 'paid' ? `<button class="btn btn-sm btn-success" onclick="markContaPaid('${c.id}')" title="Marcar como paga">✓</button>` : ''}
+        <button class="btn btn-sm btn-ghost" onclick="openContaModal(null, '${c.id}')" title="Editar">✏️</button>
+        <button class="btn btn-sm btn-ghost" onclick="deleteConta('${c.id}')" style="color:var(--danger)" title="Excluir">🗑️</button>
       </div>
     </div>
   `;
@@ -1677,6 +1931,7 @@ function renderContaItem(c) {
 function renderBudgets() {
   const ud = getUserData();
   const monthTx = getMonthTransactions();
+  const allCats = getAllCategories();
   
   return `
     <div class="section">
@@ -1685,7 +1940,7 @@ function renderBudgets() {
         <button class="btn btn-primary" onclick="openBudgetModal()">+ Novo Orçamento</button>
       </div>
       ${ud.budgets.length ? ud.budgets.map(b => {
-        const cat = data.categories.find(c => c.id === b.category);
+        const cat = allCats.find(c => c.id === b.category);
         const spent = monthTx.filter(t => t.category === b.category && t.type === 'expense').reduce((s,t) => s + Math.abs(t.value), 0);
         const pct = Math.min(100, (spent / b.limit) * 100);
         const remaining = b.limit - spent;
@@ -1735,15 +1990,70 @@ function renderGoals() {
               <div class="cx-bar" style="margin:12px 0"><div class="cx-bar-fill ${pct>=100?'complete':''}" style="width:${pct}%"></div></div>
               <div class="goal-progress">${pct}%</div>
               <div style="font-size:11px;color:var(--text-muted);margin-top:6px">${daysLeft > 0 ? daysLeft + ' dias restantes' : 'Prazo encerrado'}</div>
-              <div style="display:flex;gap:6px;margin-top:12px">
+              <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;justify-content:center">
                 <button class="btn btn-sm btn-success" onclick="openGoalDeposit('${g.id}')">+ Aporte</button>
-                <button class="btn btn-sm btn-ghost" onclick="openGoalModal('${g.id}')">✏️</button>
-                <button class="btn btn-sm btn-ghost" onclick="deleteGoal('${g.id}')" style="color:var(--danger)">🗑️</button>
+                <button class="btn btn-sm btn-ghost" onclick="openGoalModal('${g.id}')">️</button>
+                <button class="btn btn-sm btn-ghost" onclick="deleteGoal('${g.id}')" style="color:var(--danger)">️</button>
               </div>
             </div>
           `;
         }).join('') : '<div class="empty" style="grid-column:1/-1"><div class="icon"></div>Nenhuma meta definida</div>'}
       </div>
+    </div>
+  `;
+}
+
+// ============ CALENDAR ============
+function renderCalendar() {
+  const ud = getUserData();
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const monthName = now.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  
+  const events = {};
+  ud.contas.forEach(c => {
+    const d = new Date(c.dueDate);
+    if (d.getFullYear() === year && d.getMonth() === month) {
+      const day = d.getDate();
+      if (!events[day]) events[day] = [];
+      events[day].push(c);
+    }
+  });
+  
+  let days = '';
+  for (let i = 0; i < firstDay; i++) days += '<div></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const hasEvent = events[d];
+    days += `
+      <div class="calendar-day ${hasEvent ? 'has-event' : ''}">
+        <div class="day-num">${d}</div>
+        ${hasEvent ? `<div class="day-events">${hasEvent.length} conta(s)</div>` : ''}
+      </div>
+    `;
+  }
+  
+  return `
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title"> Calendário de Vencimentos</div>
+        <div style="text-transform:capitalize;color:var(--primary-light);font-weight:600">${monthName}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:16px">
+        ${['D','S','T','Q','Q','S','S'].map(d => `<div style="text-align:center;font-size:11px;color:var(--text-muted);font-weight:600">${d}</div>`).join('')}
+        ${days}
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">📋 Vencimentos do Mês</div>
+      </div>
+      ${ud.contas.filter(c => {
+        const d = new Date(c.dueDate);
+        return d.getFullYear() === year && d.getMonth() === month;
+      }).sort((a,b) => new Date(a.dueDate) - new Date(b.dueDate)).map(c => renderContaItem(c)).join('') || '<div class="empty">Nenhum vencimento este mês</div>'}
     </div>
   `;
 }
@@ -1919,11 +2229,11 @@ function renderReports() {
     </div>
 
     <div class="section">
-      <div class="section-header"><div class="section-title">⚙️ Ferramentas</div></div>
+      <div class="section-header"><div class="section-title">️ Ferramentas</div></div>
       <div class="grid grid-2">
-        <button class="btn btn-secondary btn-block" onclick="exportJSON()">📥 Exportar JSON</button>
+        <button class="btn btn-secondary btn-block" onclick="exportJSON()">📥 Exportar JSON (meus dados)</button>
         <button class="btn btn-secondary btn-block" onclick="exportCSV()">📥 Exportar CSV</button>
-        <button class="btn btn-secondary btn-block" onclick="document.getElementById('importFile').click()">📤 Importar JSON</button>
+        <button class="btn btn-secondary btn-block" onclick="document.getElementById('importFile').click()"> Importar JSON</button>
         <button class="btn btn-secondary btn-block" onclick="window.print()">️ Imprimir Relatório</button>
         <button class="btn btn-success btn-block" onclick="shareWhatsApp()">📱 Enviar via WhatsApp</button>
         <button class="btn btn-secondary btn-block" onclick="exportPDF()">📄 Exportar Resumo</button>
@@ -1934,8 +2244,8 @@ function renderReports() {
 
 function renderReportCharts() {
   const ud = getUserData();
+  const allCats = getAllCategories();
   
-  // Flow chart (6 months)
   const flowCtx = document.getElementById('reportFlowChart');
   if (flowCtx) {
     const months = [];
@@ -1966,7 +2276,6 @@ function renderReportCharts() {
     });
   }
 
-  // Category chart
   const catCtx = document.getElementById('reportCatChart');
   if (catCtx) {
     const byCat = {};
@@ -1978,13 +2287,13 @@ function renderReportCharts() {
       type: 'doughnut',
       data: {
         labels: entries.map(([id]) => {
-          const c = data.categories.find(x => x.id === id);
+          const c = allCats.find(x => x.id === id);
           return c ? c.name : 'Outros';
         }),
         datasets: [{
           data: entries.map(([,v]) => v),
           backgroundColor: entries.map(([id]) => {
-            const c = data.categories.find(x => x.id === id);
+            const c = allCats.find(x => x.id === id);
             return c ? c.color : '#888';
           }),
           borderWidth: 0
@@ -1997,7 +2306,6 @@ function renderReportCharts() {
     });
   }
 
-  // Card chart
   const cardCtx = document.getElementById('reportCardChart');
   if (cardCtx) {
     const byCard = {};
@@ -2009,7 +2317,7 @@ function renderReportCharts() {
       type: 'pie',
       data: {
         labels: entries.map(([id]) => {
-          const c = data.cards.find(x => x.id === id);
+          const c = ud.cards.find(x => x.id === id);
           return c ? c.name : 'Outros';
         }),
         datasets: [{
@@ -2025,7 +2333,6 @@ function renderReportCharts() {
     });
   }
 
-  // Wealth evolution
   const wealthCtx = document.getElementById('reportWealthChart');
   if (wealthCtx) {
     const months = [];
@@ -2068,90 +2375,104 @@ function renderReportCharts() {
 
 // ============ SETTINGS ============
 function renderSettings() {
+  const ud = getUserData();
+  const score = getScore();
   return `
     <div class="section">
-      <div class="section-header"><div class="section-title">👤 Perfil</div></div>
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+      <div class="section-header"><div class="section-title">👤 Meu Perfil</div></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap">
         <div class="avatar" style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,${currentUser.color},${currentUser.color}dd);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:white">${currentUser.name[0].toUpperCase()}</div>
-        <div>
+        <div style="flex:1;min-width:200px">
           <div style="font-size:20px;font-weight:700">${currentUser.name}</div>
           <div style="color:var(--text-muted)">${currentUser.email} • ${currentUser.role}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px">ID: ${currentUser.id} • Criado em ${new Date(currentUser.createdAt).toLocaleDateString('pt-BR')}</div>
         </div>
+        <button class="btn btn-secondary" onclick="openEditProfile()">✏️ Editar Perfil</button>
       </div>
     </div>
 
     <div class="section">
       <div class="section-header"><div class="section-title">📊 Score Financeiro</div></div>
-      <div class="score-circle" id="scoreCircle" style="background: conic-gradient(var(--primary) 0deg, var(--primary) ${getScore() * 3.6}deg, var(--border) ${getScore() * 3.6}deg)">
-        <div class="score-value">${getScore()}</div>
+      <div class="score-circle" style="background: conic-gradient(var(--primary) 0deg, var(--primary) ${score * 3.6}deg, var(--border) ${score * 3.6}deg)">
+        <div class="score-value">${score}</div>
       </div>
       <div style="text-align:center;color:var(--text-muted);font-size:13px">
-        ${getScore() >= 80 ? '🌟 Excelente! Continue assim.' : getScore() >= 60 ? '👍 Bom, mas pode melhorar.' : getScore() >= 40 ? '️ Atenção aos detalhes.' : ' Precisa de atenção urgente.'}
+        ${score >= 80 ? '🌟 Excelente! Continue assim.' : score >= 60 ? ' Bom, mas pode melhorar.' : score >= 40 ? '️ Atenção aos detalhes.' : ' Precisa de atenção urgente.'}
       </div>
     </div>
 
     <div class="section">
-      <div class="section-header"><div class="section-title">🗂️ Categorias</div></div>
+      <div class="section-header"><div class="section-title">🗂️ Minhas Categorias Personalizadas</div></div>
       <div style="margin-bottom:16px">
-        ${data.categories.map(c => `
+        ${(ud.customCategories || []).length ? ud.customCategories.map(c => `
           <div class="transaction">
             <div class="tx-icon" style="background:${c.color}22">${c.icon}</div>
-            <div class="tx-info"><div class="tx-name">${c.name}</div></div>
-            <button class="icon-btn" onclick="deleteCategory('${c.id}')" style="width:32px;height:32px;font-size:14px">🗑️</button>
+            <div class="tx-info"><div class="tx-name">${c.name}</div><div class="tx-meta">Personalizada</div></div>
+            <button class="icon-btn" onclick="deleteCustomCategory('${c.id}')" style="width:32px;height:32px;font-size:14px">🗑️</button>
+          </div>
+        `).join('') : '<div style="color:var(--text-muted);font-size:13px;text-align:center;padding:16px">Nenhuma categoria personalizada. Crie abaixo.</div>'}
+      </div>
+      <div style="background:var(--bg-soft);padding:16px;border-radius:12px">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:600">ADICIONAR NOVA CATEGORIA</div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0"><input class="form-input" id="newCatIcon" value="📦" placeholder="Ícone"></div>
+          <div class="form-group" style="margin:0"><input class="form-input" id="newCatName" placeholder="Nome da categoria"></div>
+        </div>
+        <div class="form-group" style="margin-top:10px;margin-bottom:0"><input type="color" class="form-input" id="newCatColor" value="#820ad1"></div>
+        <button class="btn btn-primary btn-block" style="margin-top:10px" onclick="saveCustomCategory()">Adicionar categoria</button>
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-soft)">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:600">CATEGORIAS GLOBAIS (somente visualização)</div>
+        ${GLOBAL_CATEGORIES.map(c => `
+          <div class="transaction">
+            <div class="tx-icon" style="background:${c.color}22">${c.icon}</div>
+            <div class="tx-info"><div class="tx-name">${c.name}</div><div class="tx-meta">Global</div></div>
           </div>
         `).join('')}
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Ícone</label>
-          <input class="form-input" id="newCatIcon" value="📦">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nome</label>
-          <input class="form-input" id="newCatName" placeholder="Nova categoria">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Cor</label>
-        <input type="color" class="form-input" id="newCatColor" value="#820ad1">
-      </div>
-      <button class="btn btn-primary btn-block" onclick="saveCategory()">Adicionar categoria</button>
     </div>
 
     <div class="section">
-      <div class="section-header"><div class="section-title"> Usuários</div></div>
-      ${data.users.map(u => `
-        <div class="transaction">
-          <div class="tx-icon" style="background:${u.color}22">${u.name[0].toUpperCase()}</div>
-          <div class="tx-info">
-            <div class="tx-name">${u.name}</div>
-            <div class="tx-meta">${u.email} • ${u.role}</div>
-          </div>
-          ${u.id !== currentUser.id ? `<button class="icon-btn" onclick="deleteUser('${u.id}')" style="width:32px;height:32px;font-size:14px">🗑️</button>` : '<span class="badge badge-primary">Atual</span>'}
-        </div>
-      `).join('')}
-      <button class="btn btn-secondary btn-block" style="margin-top:12px" onclick="openAddUser()">+ Adicionar usuário</button>
+      <div class="section-header"><div class="section-title"> Resumo dos meus dados</div></div>
+      <div class="grid grid-2">
+        <div class="stat-card"><div class="stat-label">Transações</div><div class="stat-value" style="font-size:22px">${ud.transactions.length}</div></div>
+        <div class="stat-card"><div class="stat-label">Contas</div><div class="stat-value" style="font-size:22px">${ud.accounts.length}</div></div>
+        <div class="stat-card"><div class="stat-label">Cartões</div><div class="stat-value" style="font-size:22px">${ud.cards.length}</div></div>
+        <div class="stat-card"><div class="stat-label">Caixinhas</div><div class="stat-value" style="font-size:22px">${ud.caixinhas.length}</div></div>
+        <div class="stat-card"><div class="stat-label">Contas a pagar</div><div class="stat-value" style="font-size:22px">${ud.contas.length}</div></div>
+        <div class="stat-card"><div class="stat-label">Metas</div><div class="stat-value" style="font-size:22px">${ud.goals.length}</div></div>
+      </div>
     </div>
 
     <div class="section">
-      <div class="section-header"><div class="section-title">⚙️ Dados</div></div>
+      <div class="section-header"><div class="section-title">⚙️ Meus Dados</div></div>
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ️</span>
+        <div>Todos os dados abaixo são <strong>exclusivos do seu usuário</strong>. Outros usuários não têm acesso.</div>
+      </div>
       <div class="grid grid-2">
         <button class="btn btn-secondary btn-block" onclick="exportJSON()">📥 Exportar JSON</button>
         <button class="btn btn-secondary btn-block" onclick="exportCSV()">📥 Exportar CSV</button>
         <button class="btn btn-secondary btn-block" onclick="document.getElementById('importFile').click()">📤 Importar JSON</button>
-        <button class="btn btn-secondary btn-block" onclick="window.print()">🖨️ Imprimir</button>
+        <button class="btn btn-secondary btn-block" onclick="window.print()">️ Imprimir</button>
         <button class="btn btn-success btn-block" onclick="shareWhatsApp()">📱 WhatsApp</button>
-        <button class="btn btn-danger btn-block" onclick="resetData()">🗑️ Resetar Tudo</button>
+        <button class="btn btn-danger btn-block" onclick="resetUserData()">🗑️ Resetar MEUS dados</button>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-header"><div class="section-title">ℹ️ Sobre</div></div>
-      <div style="color:var(--text-muted);font-size:13px;line-height:1.6">
-        <p><strong>FinApp Pro v2.0</strong></p>
-        <p>App de controle financeiro pessoal com suporte multi-usuário.</p>
-        <p style="margin-top:10px">Recursos: Cartões de crédito, Caixinhas com depósitos/resgates, Contas a pagar/receber, Orçamentos, Metas, Relatórios com gráficos, Dicas de investimentos e educação financeira.</p>
-        <p style="margin-top:10px">Dados armazenados localmente no navegador (localStorage). Exporte regularmente para backup.</p>
+      <div class="section-header"><div class="section-title">ℹ️ Sobre o FinApp Pro</div></div>
+      <div style="color:var(--text-soft);font-size:13px;line-height:1.7">
+        <p><strong>FinApp Pro v0.0.3</strong> - MVP para testes</p>
+        <p style="margin-top:10px">App de controle financeiro pessoal com suporte multi-usuário. Cada usuário possui sua própria base de dados isolada.</p>
+        <p style="margin-top:10px"><strong>Recursos:</strong> Cartões de crédito, Caixinhas com depósitos/resgates, Contas a pagar/receber, Orçamentos, Metas, Relatórios com gráficos, Calendário de vencimentos, Simulador de investimentos, Dicas de educação financeira, Score financeiro.</p>
+        <p style="margin-top:10px"><strong>Armazenamento:</strong> Dados salvos localmente no navegador (localStorage). Exporte regularmente para backup.</p>
+        <p style="margin-top:10px"><strong>Futuro:</strong> Integração com banco de dados, Google Sheets, sincronização em nuvem.</p>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-soft);font-size:12px;color:var(--text-muted)">
+          <div>Desenvolvido por <strong style="color:var(--text)">Walney Moreira Klein</strong></div>
+          <div style="margin-top:4px"><a href="mailto:walneyk@hotmail.com" style="color:var(--primary-light)">walneyk@hotmail.com</a></div>
+          <div style="margin-top:4px"><a href="https://walneynf.github.io/finapp/" target="_blank" style="color:var(--primary-light)">walneynf.github.io/finapp</a></div>
+        </div>
       </div>
     </div>
   `;
@@ -2169,13 +2490,12 @@ function openModal(html) {
 
 function openAddUser() {
   openModal(`
-    <div class="modal-header">
-      <div class="modal-title">Novo Usuário</div>
-      <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
-    </div>
+    <div class="modal-header"><div class="modal-title">Cadastrar Novo Usuário</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+    <div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>Cada usuário terá sua própria base de dados isolada.</div></div>
     <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="newUserName" placeholder="Ex: João"></div>
     <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="newUserEmail" placeholder="email@exemplo.com"></div>
-    <div class="form-group"><label class="form-label">Perfil</label><select class="form-select" id="newUserRole"><option>Titular</option><option>Dependente</option><option>Convidado</option></select></div>
+    <div class="form-group"><label class="form-label">Senha</label><input class="form-input" id="newUserPwd" type="password" placeholder="Mínimo 4 caracteres" value="123456"></div>
+    <div class="form-group"><label class="form-label">Perfil</label><select class="form-select" id="newUserRole"><option>Titular</option><option>Dependente</option><option>Convidado</option><option>Administrador</option></select></div>
     <div class="form-group"><label class="form-label">Cor</label><input type="color" class="form-input" id="newUserColor" value="#820ad1"></div>
     <button class="btn btn-primary btn-block" onclick="saveNewUser()">Criar usuário</button>
   `);
@@ -2184,33 +2504,54 @@ function openAddUser() {
 function saveNewUser() {
   const name = document.getElementById('newUserName').value.trim();
   const email = document.getElementById('newUserEmail').value.trim();
+  const pwd = document.getElementById('newUserPwd').value;
   const role = document.getElementById('newUserRole').value;
   const color = document.getElementById('newUserColor').value;
   if (!name) return toast('Informe o nome');
-  data.users.push({ id: 'u' + Date.now(), name, email, role, color });
+  if (pwd.length < 4) return toast('Senha muito curta');
+  const user = { id: 'u' + Date.now(), name, email, role, color, password: pwd, createdAt: new Date().toISOString() };
+  data.users.push(user);
+  data.user_data[user.id] = createDefaultUserData(user.id);
   saveData();
   document.querySelector('.modal-overlay').remove();
-  renderPage();
-  toast('Usuário criado!');
+  renderUserList();
+  toast('Usuário criado! Senha: ' + pwd);
 }
 
-function deleteUser(id) {
-  if (!confirm('Excluir usuário e todos seus dados?')) return;
-  data.users = data.users.filter(u => u.id !== id);
-  data.transactions = data.transactions.filter(t => t.userId !== id);
-  data.cards = data.cards.filter(c => c.userId !== id);
-  data.caixinhas = data.caixinhas.filter(c => c.userId !== id);
-  data.contas = data.contas.filter(c => c.userId !== id);
-  data.budgets = data.budgets.filter(b => b.userId !== id);
-  data.goals = data.goals.filter(g => g.userId !== id);
+function openEditProfile() {
+  openModal(`
+    <div class="modal-header"><div class="modal-title">Editar Perfil</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+    <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="editName" value="${currentUser.name}"></div>
+    <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="editEmail" value="${currentUser.email}"></div>
+    <div class="form-group"><label class="form-label">Nova senha (deixe vazio para manter)</label><input class="form-input" id="editPwd" type="password" placeholder="Nova senha"></div>
+    <div class="form-group"><label class="form-label">Cor</label><input type="color" class="form-input" id="editColor" value="${currentUser.color}"></div>
+    <button class="btn btn-primary btn-block" onclick="saveProfile()">Salvar alterações</button>
+  `);
+}
+
+function saveProfile() {
+  const name = document.getElementById('editName').value.trim();
+  const email = document.getElementById('editEmail').value.trim();
+  const pwd = document.getElementById('editPwd').value;
+  const color = document.getElementById('editColor').value;
+  if (!name) return toast('Informe o nome');
+  currentUser.name = name;
+  currentUser.email = email;
+  currentUser.color = color;
+  if (pwd) currentUser.password = pwd;
+  // Update in users array
+  const u = data.users.find(x => x.id === currentUser.id);
+  Object.assign(u, currentUser);
   saveData();
-  renderPage();
-  toast('Usuário excluído');
+  document.querySelector('.modal-overlay').remove();
+  showApp();
+  toast('Perfil atualizado!');
 }
 
 function openTransactionModal(id) {
-  const tx = id ? data.transactions.find(t => t.id === id) : null;
-  const userCards = data.cards.filter(c => c.userId === currentUser.id);
+  const ud = getUserData();
+  const tx = id ? ud.transactions.find(t => t.id === id) : null;
+  const allCats = getAllCategories();
   openModal(`
     <div class="modal-header"><div class="modal-title">${tx ? 'Editar' : 'Nova'} Transação</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
     <div class="form-group"><label class="form-label">Descrição</label><input class="form-input" id="txName" value="${tx ? tx.name : ''}" placeholder="Ex: Mercado"></div>
@@ -2219,10 +2560,13 @@ function openTransactionModal(id) {
       <div class="form-group"><label class="form-label">Tipo</label><select class="form-select" id="txType"><option value="expense" ${tx && tx.type === 'expense' ? 'selected' : ''}>Saída</option><option value="income" ${tx && tx.type === 'income' ? 'selected' : ''}>Entrada</option></select></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="txCategory">${data.categories.map(c => `<option value="${c.id}" ${tx && tx.category === c.id ? 'selected' : ''}>${c.icon} ${c.name}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="txCategory">${allCats.map(c => `<option value="${c.id}" ${tx && tx.category === c.id ? 'selected' : ''}>${c.icon} ${c.name}</option>`).join('')}</select></div>
       <div class="form-group"><label class="form-label">Data</label><input class="form-input" id="txDate" type="date" value="${tx ? tx.date : new Date().toISOString().slice(0,10)}"></div>
     </div>
-    <div class="form-group"><label class="form-label">Cartão (opcional)</label><select class="form-select" id="txCard"><option value="">Nenhum</option>${userCards.map(c => `<option value="${c.id}" ${tx && tx.card === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}</select></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Conta</label><select class="form-select" id="txAccount"><option value="">Nenhuma</option>${ud.accounts.map(a => `<option value="${a.id}" ${tx && tx.account === a.id ? 'selected' : ''}>${a.icon} ${a.name}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Cartão</label><select class="form-select" id="txCard"><option value="">Nenhum</option>${ud.cards.map(c => `<option value="${c.id}" ${tx && tx.card === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}</select></div>
+    </div>
     <div class="btn-row" style="display:flex;gap:10px;margin-top:10px">
       ${tx ? `<button class="btn btn-danger" onclick="deleteTransaction('${tx.id}')">Excluir</button>` : ''}
       <button class="btn btn-primary btn-block" onclick="saveTransaction('${id || ''}')">Salvar</button>
@@ -2231,21 +2575,23 @@ function openTransactionModal(id) {
 }
 
 function saveTransaction(id) {
+  const ud = getUserData();
   const name = document.getElementById('txName').value.trim();
   const value = parseFloat(document.getElementById('txValue').value);
   const type = document.getElementById('txType').value;
   const category = document.getElementById('txCategory').value;
   const date = document.getElementById('txDate').value;
   const card = document.getElementById('txCard').value;
+  const account = document.getElementById('txAccount').value;
   if (!name || isNaN(value)) return toast('Preencha descrição e valor');
   const finalValue = type === 'expense' ? -Math.abs(value) : Math.abs(value);
   if (id) {
-    const tx = data.transactions.find(t => t.id === id);
-    Object.assign(tx, { name, value: finalValue, type, category, date, card });
+    const tx = ud.transactions.find(t => t.id === id);
+    Object.assign(tx, { name, value: finalValue, type, category, date, card, account });
   } else {
-    data.transactions.push({ id: 't' + Date.now(), userId: currentUser.id, name, value: finalValue, type, category, date, card });
+    ud.transactions.push({ id: 't' + Date.now(), name, value: finalValue, type, category, date, card, account });
   }
-  saveData();
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Transação salva!');
@@ -2253,15 +2599,121 @@ function saveTransaction(id) {
 
 function deleteTransaction(id) {
   if (!confirm('Excluir transação?')) return;
-  data.transactions = data.transactions.filter(t => t.id !== id);
-  saveData();
+  const ud = getUserData();
+  ud.transactions = ud.transactions.filter(t => t.id !== id);
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Excluída!');
 }
 
+function openAccountModal(id) {
+  const ud = getUserData();
+  const acc = id ? ud.accounts.find(a => a.id === id) : null;
+  openModal(`
+    <div class="modal-header"><div class="modal-title">${acc ? 'Editar' : 'Nova'} Conta</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()"></button></div>
+    <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="accName" value="${acc ? acc.name : ''}" placeholder="Ex: Conta Corrente"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Tipo</label><select class="form-select" id="accType"><option value="checking" ${acc && acc.type === 'checking' ? 'selected' : ''}>Conta Corrente</option><option value="savings" ${acc && acc.type === 'savings' ? 'selected' : ''}>Poupança</option><option value="investment" ${acc && acc.type === 'investment' ? 'selected' : ''}>Investimento</option><option value="cash" ${acc && acc.type === 'cash' ? 'selected' : ''}>Carteira</option></select></div>
+      <div class="form-group"><label class="form-label">Saldo (R$)</label><input class="form-input" id="accBalance" type="number" step="0.01" value="${acc ? acc.balance : 0}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Ícone</label><input class="form-input" id="accIcon" value="${acc ? acc.icon : '🏦'}" maxlength="4"></div>
+      <div class="form-group"><label class="form-label">Cor</label><input type="color" class="form-input" id="accColor" value="${acc ? acc.color : '#820ad1'}"></div>
+    </div>
+    <div class="btn-row" style="display:flex;gap:10px;margin-top:10px">
+      ${acc ? `<button class="btn btn-danger" onclick="deleteAccount('${acc.id}')">Excluir</button>` : ''}
+      <button class="btn btn-primary btn-block" onclick="saveAccount('${id || ''}')">Salvar</button>
+    </div>
+  `);
+}
+
+function saveAccount(id) {
+  const ud = getUserData();
+  const name = document.getElementById('accName').value.trim();
+  const type = document.getElementById('accType').value;
+  const balance = parseFloat(document.getElementById('accBalance').value) || 0;
+  const icon = document.getElementById('accIcon').value;
+  const color = document.getElementById('accColor').value;
+  if (!name) return toast('Informe o nome');
+  if (id) {
+    const a = ud.accounts.find(x => x.id === id);
+    Object.assign(a, { name, type, balance, icon, color });
+  } else {
+    ud.accounts.push({ id: 'acc' + Date.now(), name, type, balance, icon, color });
+  }
+  saveUserData();
+  document.querySelector('.modal-overlay').remove();
+  renderPage();
+  toast('Conta salva!');
+}
+
+function deleteAccount(id) {
+  if (!confirm('Excluir conta?')) return;
+  const ud = getUserData();
+  ud.accounts = ud.accounts.filter(a => a.id !== id);
+  saveUserData();
+  document.querySelector('.modal-overlay').remove();
+  renderPage();
+  toast('Excluída!');
+}
+
+function openAccountDeposit(id) {
+  const ud = getUserData();
+  const acc = ud.accounts.find(a => a.id === id);
+  openModal(`
+    <div class="modal-header"><div class="modal-title">+ Depositar em ${acc.icon} ${acc.name}</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+    <div style="background:var(--bg-soft);padding:14px;border-radius:12px;margin-bottom:16px">
+      <div style="font-size:12px;color:var(--text-muted)">Saldo atual</div>
+      <div style="font-size:24px;font-weight:700;color:var(--success)">${formatMoney(acc.balance)}</div>
+    </div>
+    <div class="form-group"><label class="form-label">Valor (R$)</label><input class="form-input" id="depValue" type="number" step="0.01"></div>
+    <div class="form-group"><label class="form-label">Descrição</label><input class="form-input" id="depDesc" value="Depósito"></div>
+    <button class="btn btn-success btn-block" onclick="saveAccountTransaction('${id}', 'deposit')">Confirmar depósito</button>
+  `);
+}
+
+function openAccountWithdraw(id) {
+  const ud = getUserData();
+  const acc = ud.accounts.find(a => a.id === id);
+  openModal(`
+    <div class="modal-header"><div class="modal-title">- Sacar de ${acc.icon} ${acc.name}</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+    <div style="background:var(--bg-soft);padding:14px;border-radius:12px;margin-bottom:16px">
+      <div style="font-size:12px;color:var(--text-muted)">Saldo disponível</div>
+      <div style="font-size:24px;font-weight:700;color:var(--success)">${formatMoney(acc.balance)}</div>
+    </div>
+    <div class="form-group"><label class="form-label">Valor (R$)</label><input class="form-input" id="depValue" type="number" step="0.01"></div>
+    <div class="form-group"><label class="form-label">Descrição</label><input class="form-input" id="depDesc" value="Saque"></div>
+    <button class="btn btn-warning btn-block" onclick="saveAccountTransaction('${id}', 'withdraw')">Confirmar saque</button>
+  `);
+}
+
+function saveAccountTransaction(id, type) {
+  const ud = getUserData();
+  const value = parseFloat(document.getElementById('depValue').value);
+  const desc = document.getElementById('depDesc').value.trim();
+  if (!value || value <= 0) return toast('Valor inválido');
+  const acc = ud.accounts.find(a => a.id === id);
+  if (type === 'withdraw' && value > acc.balance) return toast('Saldo insuficiente');
+  acc.balance = type === 'deposit' ? acc.balance + value : acc.balance - value;
+  ud.transactions.push({
+    id: 't' + Date.now(),
+    name: desc,
+    category: type === 'deposit' ? 'c7' : 'c9',
+    value: type === 'deposit' ? value : -value,
+    date: new Date().toISOString().slice(0,10),
+    type: type === 'deposit' ? 'income' : 'expense',
+    account: id
+  });
+  saveUserData();
+  document.querySelector('.modal-overlay').remove();
+  renderPage();
+  toast(type === 'deposit' ? 'Depósito realizado!' : 'Saque realizado!');
+}
+
 function openCardModal(id) {
-  const card = id ? data.cards.find(c => c.id === id) : null;
+  const ud = getUserData();
+  const card = id ? ud.cards.find(c => c.id === id) : null;
   openModal(`
     <div class="modal-header"><div class="modal-title">${card ? 'Editar' : 'Novo'} Cartão</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
     <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="cdName" value="${card ? card.name : ''}" placeholder="Ex: Nubank"></div>
@@ -2285,6 +2737,7 @@ function openCardModal(id) {
 }
 
 function saveCard(id) {
+  const ud = getUserData();
   const name = document.getElementById('cdName').value.trim();
   const brand = document.getElementById('cdBrand').value;
   const number = document.getElementById('cdNumber').value;
@@ -2294,12 +2747,12 @@ function saveCard(id) {
   const due = parseInt(document.getElementById('cdDue').value);
   if (!name || isNaN(limit)) return toast('Preencha nome e limite');
   if (id) {
-    const c = data.cards.find(x => x.id === id);
+    const c = ud.cards.find(x => x.id === id);
     Object.assign(c, { name, brand, number, limit, used, closing, due });
   } else {
-    data.cards.push({ id: 'cd' + Date.now(), userId: currentUser.id, name, brand, number, limit, used, closing, due });
+    ud.cards.push({ id: 'cd' + Date.now(), name, brand, number, limit, used, closing, due });
   }
-  saveData();
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Cartão salvo!');
@@ -2307,15 +2760,17 @@ function saveCard(id) {
 
 function deleteCard(id) {
   if (!confirm('Excluir cartão?')) return;
-  data.cards = data.cards.filter(c => c.id !== id);
-  saveData();
+  const ud = getUserData();
+  ud.cards = ud.cards.filter(c => c.id !== id);
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Excluído!');
 }
 
 function openCaixinhaModal(id) {
-  const cx = id ? data.caixinhas.find(c => c.id === id) : null;
+  const ud = getUserData();
+  const cx = id ? ud.caixinhas.find(c => c.id === id) : null;
   openModal(`
     <div class="modal-header"><div class="modal-title">${cx ? 'Editar' : 'Nova'} Caixinha</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
     <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="cxName" value="${cx ? cx.name : ''}" placeholder="Ex: Viagem"></div>
@@ -2332,18 +2787,19 @@ function openCaixinhaModal(id) {
 }
 
 function saveCaixinha(id) {
+  const ud = getUserData();
   const name = document.getElementById('cxName').value.trim();
   const icon = document.getElementById('cxIcon').value;
   const target = parseFloat(document.getElementById('cxTarget').value);
   const current = parseFloat(document.getElementById('cxCurrent').value) || 0;
   if (!name || isNaN(target)) return toast('Preencha nome e meta');
   if (id) {
-    const c = data.caixinhas.find(x => x.id === id);
+    const c = ud.caixinhas.find(x => x.id === id);
     Object.assign(c, { name, icon, target, current });
   } else {
-    data.caixinhas.push({ id: 'cx' + Date.now(), userId: currentUser.id, name, icon, target, current, transactions: [] });
+    ud.caixinhas.push({ id: 'cx' + Date.now(), name, icon, target, current, transactions: [] });
   }
-  saveData();
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Caixinha salva!');
@@ -2351,15 +2807,17 @@ function saveCaixinha(id) {
 
 function deleteCaixinha(id) {
   if (!confirm('Excluir caixinha?')) return;
-  data.caixinhas = data.caixinhas.filter(c => c.id !== id);
-  saveData();
+  const ud = getUserData();
+  ud.caixinhas = ud.caixinhas.filter(c => c.id !== id);
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Excluída!');
 }
 
 function openCaixinhaDeposit(id) {
-  const cx = data.caixinhas.find(c => c.id === id);
+  const ud = getUserData();
+  const cx = ud.caixinhas.find(c => c.id === id);
   openModal(`
     <div class="modal-header"><div class="modal-title"> Depositar em ${cx.icon} ${cx.name}</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
     <div style="background:var(--bg-soft);padding:14px;border-radius:12px;margin-bottom:16px">
@@ -2375,9 +2833,10 @@ function openCaixinhaDeposit(id) {
 }
 
 function openCaixinhaWithdraw(id) {
-  const cx = data.caixinhas.find(c => c.id === id);
+  const ud = getUserData();
+  const cx = ud.caixinhas.find(c => c.id === id);
   openModal(`
-    <div class="modal-header"><div class="modal-title">📤 Resgatar de ${cx.icon} ${cx.name}</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+    <div class="modal-header"><div class="modal-title"> Resgatar de ${cx.icon} ${cx.name}</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
     <div style="background:var(--bg-soft);padding:14px;border-radius:12px;margin-bottom:16px">
       <div style="font-size:12px;color:var(--text-muted)">Saldo disponível</div>
       <div style="font-size:24px;font-weight:700;color:var(--success)">${formatMoney(cx.current)}</div>
@@ -2390,26 +2849,29 @@ function openCaixinhaWithdraw(id) {
 }
 
 function saveCaixinhaTransaction(id, type) {
+  const ud = getUserData();
   const value = parseFloat(document.getElementById('depValue').value);
   const desc = document.getElementById('depDesc').value.trim();
   const date = document.getElementById('depDate').value;
   if (!value || value <= 0) return toast('Informe um valor válido');
-  const cx = data.caixinhas.find(c => c.id === id);
+  const cx = ud.caixinhas.find(c => c.id === id);
   if (type === 'withdraw' && value > cx.current) return toast('Saldo insuficiente');
   if (!cx.transactions) cx.transactions = [];
   cx.transactions.push({ id: 'd' + Date.now(), type, value, date, desc });
   cx.current = type === 'deposit' ? cx.current + value : cx.current - value;
-  saveData();
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast(type === 'deposit' ? 'Depósito realizado!' : 'Resgate realizado!');
 }
 
 function openContaModal(type, id) {
-  const conta = id ? data.contas.find(c => c.id === id) : null;
+  const ud = getUserData();
+  const conta = id ? ud.contas.find(c => c.id === id) : null;
   const actualType = type || (conta?.type) || 'payable';
+  const allCats = getAllCategories();
   openModal(`
-    <div class="modal-header"><div class="modal-title">${conta ? 'Editar' : 'Nova'} Conta</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+    <div class="modal-header"><div class="modal-title">${conta ? 'Editar' : 'Nova'} Conta</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()"></button></div>
     <div class="form-group"><label class="form-label">Tipo</label><select class="form-select" id="ctType"><option value="payable" ${actualType === 'payable' ? 'selected' : ''}>A Pagar</option><option value="receivable" ${actualType === 'receivable' ? 'selected' : ''}>A Receber</option></select></div>
     <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="ctName" value="${conta ? conta.name : ''}" placeholder="Ex: Aluguel"></div>
     <div class="form-row">
@@ -2417,7 +2879,7 @@ function openContaModal(type, id) {
       <div class="form-group"><label class="form-label">Vencimento</label><input class="form-input" id="ctDue" type="date" value="${conta ? conta.dueDate : new Date().toISOString().slice(0,10)}"></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="ctCategory">${data.categories.map(c => `<option value="${c.id}" ${conta && conta.category === c.id ? 'selected' : ''}>${c.icon} ${c.name}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="ctCategory">${allCats.map(c => `<option value="${c.id}" ${conta && conta.category === c.id ? 'selected' : ''}>${c.icon} ${c.name}</option>`).join('')}</select></div>
       <div class="form-group"><label class="form-label">Ícone</label><input class="form-input" id="ctIcon" value="${conta ? conta.icon : ''}" maxlength="4"></div>
     </div>
     <div class="form-group"><label class="form-label" style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="ctRecurring" ${conta?.recurring ? 'checked' : ''}> Conta recorrente (mensal)</label></div>
@@ -2430,6 +2892,7 @@ function openContaModal(type, id) {
 }
 
 function saveConta(id) {
+  const ud = getUserData();
   const type = document.getElementById('ctType').value;
   const name = document.getElementById('ctName').value.trim();
   const value = parseFloat(document.getElementById('ctValue').value);
@@ -2440,12 +2903,12 @@ function saveConta(id) {
   const status = document.getElementById('ctStatus').value;
   if (!name || isNaN(value)) return toast('Preencha nome e valor');
   if (id) {
-    const c = data.contas.find(x => x.id === id);
+    const c = ud.contas.find(x => x.id === id);
     Object.assign(c, { type, name, value, dueDate, category, icon, recurring, status });
   } else {
-    data.contas.push({ id: 'ct' + Date.now(), userId: currentUser.id, type, name, value, dueDate, category, icon, recurring, status });
+    ud.contas.push({ id: 'ct' + Date.now(), type, name, value, dueDate, category, icon, recurring, status });
   }
-  saveData();
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Conta salva!');
@@ -2453,38 +2916,40 @@ function saveConta(id) {
 
 function deleteConta(id) {
   if (!confirm('Excluir conta?')) return;
-  data.contas = data.contas.filter(c => c.id !== id);
-  saveData();
+  const ud = getUserData();
+  ud.contas = ud.contas.filter(c => c.id !== id);
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Excluída!');
 }
 
 function markContaPaid(id) {
-  const c = data.contas.find(x => x.id === id);
+  const ud = getUserData();
+  const c = ud.contas.find(x => x.id === id);
   c.status = 'paid';
-  // Auto-create transaction
-  const cat = c.category;
   const value = c.type === 'payable' ? -c.value : c.value;
-  data.transactions.push({
+  ud.transactions.push({
     id: 't' + Date.now(),
-    userId: currentUser.id,
     name: c.name,
-    category: cat,
+    category: c.category,
     value: value,
     date: new Date().toISOString().slice(0,10),
     type: c.type === 'payable' ? 'expense' : 'income'
   });
-  saveData();
+  saveUserData();
   renderPage();
+  updateNotifBadge();
   toast('Conta marcada como paga!');
 }
 
 function openBudgetModal(id) {
-  const budget = id ? data.budgets.find(b => b.id === id) : null;
+  const ud = getUserData();
+  const budget = id ? ud.budgets.find(b => b.id === id) : null;
+  const allCats = getAllCategories();
   openModal(`
     <div class="modal-header"><div class="modal-title">${budget ? 'Editar' : 'Novo'} Orçamento</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
-    <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="bdCategory">${data.categories.map(c => `<option value="${c.id}" ${budget && budget.category === c.id ? 'selected' : ''}>${c.icon} ${c.name}</option>`).join('')}</select></div>
+    <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="bdCategory">${allCats.map(c => `<option value="${c.id}" ${budget && budget.category === c.id ? 'selected' : ''}>${c.icon} ${c.name}</option>`).join('')}</select></div>
     <div class="form-group"><label class="form-label">Limite mensal (R$)</label><input class="form-input" id="bdLimit" type="number" value="${budget ? budget.limit : ''}"></div>
     <div class="btn-row" style="display:flex;gap:10px;margin-top:10px">
       ${budget ? `<button class="btn btn-danger" onclick="deleteBudget('${budget.id}')">Excluir</button>` : ''}
@@ -2494,16 +2959,17 @@ function openBudgetModal(id) {
 }
 
 function saveBudget(id) {
+  const ud = getUserData();
   const category = document.getElementById('bdCategory').value;
   const limit = parseFloat(document.getElementById('bdLimit').value);
   if (isNaN(limit)) return toast('Informe o limite');
   if (id) {
-    const b = data.budgets.find(x => x.id === id);
+    const b = ud.budgets.find(x => x.id === id);
     Object.assign(b, { category, limit });
   } else {
-    data.budgets.push({ id: 'b' + Date.now(), userId: currentUser.id, category, limit });
+    ud.budgets.push({ id: 'b' + Date.now(), category, limit });
   }
-  saveData();
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Orçamento salvo!');
@@ -2511,14 +2977,16 @@ function saveBudget(id) {
 
 function deleteBudget(id) {
   if (!confirm('Excluir orçamento?')) return;
-  data.budgets = data.budgets.filter(b => b.id !== id);
-  saveData();
+  const ud = getUserData();
+  ud.budgets = ud.budgets.filter(b => b.id !== id);
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
 }
 
 function openGoalModal(id) {
-  const goal = id ? data.goals.find(g => g.id === id) : null;
+  const ud = getUserData();
+  const goal = id ? ud.goals.find(g => g.id === id) : null;
   openModal(`
     <div class="modal-header"><div class="modal-title">${goal ? 'Editar' : 'Nova'} Meta</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
     <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="glName" value="${goal ? goal.name : ''}"></div>
@@ -2538,6 +3006,7 @@ function openGoalModal(id) {
 }
 
 function saveGoal(id) {
+  const ud = getUserData();
   const name = document.getElementById('glName').value.trim();
   const icon = document.getElementById('glIcon').value;
   const deadline = document.getElementById('glDeadline').value;
@@ -2545,12 +3014,12 @@ function saveGoal(id) {
   const current = parseFloat(document.getElementById('glCurrent').value) || 0;
   if (!name || isNaN(target)) return toast('Preencha nome e meta');
   if (id) {
-    const g = data.goals.find(x => x.id === id);
+    const g = ud.goals.find(x => x.id === id);
     Object.assign(g, { name, icon, deadline, target, current });
   } else {
-    data.goals.push({ id: 'g' + Date.now(), userId: currentUser.id, name, icon, target, current, deadline });
+    ud.goals.push({ id: 'g' + Date.now(), name, icon, target, current, deadline });
   }
-  saveData();
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Meta salva!');
@@ -2558,14 +3027,16 @@ function saveGoal(id) {
 
 function deleteGoal(id) {
   if (!confirm('Excluir meta?')) return;
-  data.goals = data.goals.filter(g => g.id !== id);
-  saveData();
+  const ud = getUserData();
+  ud.goals = ud.goals.filter(g => g.id !== id);
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
 }
 
 function openGoalDeposit(id) {
-  const g = data.goals.find(x => x.id === id);
+  const ud = getUserData();
+  const g = ud.goals.find(x => x.id === id);
   openModal(`
     <div class="modal-header"><div class="modal-title">+ Aporte em ${g.icon} ${g.name}</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
     <div style="background:var(--bg-soft);padding:14px;border-radius:12px;margin-bottom:16px">
@@ -2579,45 +3050,35 @@ function openGoalDeposit(id) {
 }
 
 function saveGoalDeposit(id) {
+  const ud = getUserData();
   const value = parseFloat(document.getElementById('depValue').value);
   if (!value || value <= 0) return toast('Valor inválido');
-  const g = data.goals.find(x => x.id === id);
+  const g = ud.goals.find(x => x.id === id);
   g.current += value;
-  saveData();
+  saveUserData();
   document.querySelector('.modal-overlay').remove();
   renderPage();
   toast('Aporte registrado!');
 }
 
-function openCategoryModal() {
-  openModal(`
-    <div class="modal-header"><div class="modal-title">Categorias</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
-    <div style="margin-bottom:16px">${data.categories.map(c => `<div class="transaction"><div class="tx-icon" style="background:${c.color}22">${c.icon}</div><div class="tx-info"><div class="tx-name">${c.name}</div></div><button class="icon-btn" onclick="deleteCategory('${c.id}')" style="width:32px;height:32px;font-size:14px">🗑️</button></div>`).join('')}</div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Ícone</label><input class="form-input" id="newCatIcon" value="📦"></div>
-      <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="newCatName" placeholder="Nova categoria"></div>
-    </div>
-    <div class="form-group"><label class="form-label">Cor</label><input type="color" class="form-input" id="newCatColor" value="#820ad1"></div>
-    <button class="btn btn-primary btn-block" onclick="saveCategory()">Adicionar categoria</button>
-  `);
-}
-
-function saveCategory() {
+function saveCustomCategory() {
+  const ud = getUserData();
   const icon = document.getElementById('newCatIcon').value;
   const name = document.getElementById('newCatName').value.trim();
   const color = document.getElementById('newCatColor').value;
   if (!name) return toast('Informe o nome');
-  data.categories.push({ id: 'c' + Date.now(), name, icon, color });
-  saveData();
-  document.querySelector('.modal-overlay').remove();
+  if (!ud.customCategories) ud.customCategories = [];
+  ud.customCategories.push({ id: 'cc' + Date.now(), name, icon, color });
+  saveUserData();
   renderPage();
   toast('Categoria adicionada!');
 }
 
-function deleteCategory(id) {
+function deleteCustomCategory(id) {
   if (!confirm('Excluir categoria?')) return;
-  data.categories = data.categories.filter(c => c.id !== id);
-  saveData();
+  const ud = getUserData();
+  ud.customCategories = ud.customCategories.filter(c => c.id !== id);
+  saveUserData();
   renderPage();
   toast('Excluída!');
 }
@@ -2648,36 +3109,86 @@ function doSearch() {
   document.getElementById('searchResults').innerHTML = html || '<div class="empty">Nenhum resultado</div>';
 }
 
+function openNotifications() {
+  const ud = getUserData();
+  const overdue = ud.contas.filter(c => c.status === 'overdue' || (c.status === 'pending' && c.type === 'payable' && new Date(c.dueDate) < new Date()));
+  const upcoming = ud.contas.filter(c => c.status === 'pending' && c.type === 'payable' && new Date(c.dueDate) <= new Date(Date.now() + 7 * 86400000) && new Date(c.dueDate) >= new Date());
+  
+  openModal(`
+    <div class="modal-header"><div class="modal-title">🔔 Notificações</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+    ${overdue.length ? `<div class="alert alert-danger"><span class="alert-icon"></span><div><strong>${overdue.length} conta(s) atrasada(s)</strong><br>${overdue.map(c => c.name + ': ' + formatMoney(c.value)).join('<br>')}</div></div>` : ''}
+    ${upcoming.length ? `<div class="alert alert-warning"><span class="alert-icon">⏰</span><div><strong>${upcoming.length} conta(s) vence(m) em 7 dias</strong><br>${upcoming.map(c => c.name + ': ' + new Date(c.dueDate).toLocaleDateString('pt-BR')).join('<br>')}</div></div>` : ''}
+    ${!overdue.length && !upcoming.length ? '<div class="empty"><div class="icon">🔔</div>Nenhuma notificação no momento</div>' : ''}
+  `);
+}
+
 // ============ MENU ============
-function openMenu() { document.getElementById('menuPanel').classList.add('open'); }
+function openMenu() { 
+  const menuItems = [
+    { page: 'dashboard', icon: '📊', label: 'Visão Geral' },
+    { page: 'accounts', icon: '🏦', label: 'Contas' },
+    { page: 'cards', icon: '💳', label: 'Cartões' },
+    { page: 'caixinhas', icon: '🎯', label: 'Caixinhas' },
+    { page: 'transactions', icon: '💸', label: 'Transações' },
+    { page: 'contas', icon: '📋', label: 'Contas a Pagar' },
+    { page: 'budgets', icon: '📊', label: 'Orçamentos' },
+    { page: 'goals', icon: '🏆', label: 'Metas' },
+    { page: 'calendar', icon: '📅', label: 'Calendário' },
+    { page: 'investments', icon: '📈', label: 'Investimentos' },
+    { page: 'education', icon: '', label: 'Educação' },
+    { page: 'reports', icon: '', label: 'Relatórios' },
+    { page: 'settings', icon: '️', label: 'Configurações' }
+  ];
+  document.getElementById('menuItems').innerHTML = menuItems.map(m => 
+    `<button style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="switchPage('${m.page}'); closeMenu();"><span style="font-size:18px">${m.icon}</span>${m.label}</button>`
+  ).join('') + `
+    <button style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="exportJSON(); closeMenu();"><span style="font-size:18px">📥</span>Exportar JSON</button>
+    <button style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="exportCSV(); closeMenu();"><span style="font-size:18px"></span>Exportar CSV</button>
+    <button style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="document.getElementById('importFile').click(); closeMenu();"><span style="font-size:18px">📤</span>Importar JSON</button>
+    <button style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="window.print(); closeMenu();"><span style="font-size:18px">🖨️</span>Imprimir</button>
+    <button style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--card-light);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--text);width:100%;text-align:left;font-size:14px;" onclick="shareWhatsApp(); closeMenu();"><span style="font-size:18px">📱</span>WhatsApp</button>
+    <button style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--danger-soft);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--danger);width:100%;text-align:left;font-size:14px;" onclick="resetUserData(); closeMenu();"><span style="font-size:18px">🗑️</span>Resetar MEUS dados</button>
+    <button style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--warning-soft);border-radius:12px;margin-bottom:8px;cursor:pointer;border:none;color:var(--warning);width:100%;text-align:left;font-size:14px;" onclick="logout(); closeMenu();"><span style="font-size:18px">🚪</span>Sair</button>
+  `;
+  document.getElementById('menuPanel').classList.add('open'); 
+}
 function closeMenu() { document.getElementById('menuPanel').classList.remove('open'); }
 
 // ============ EXPORT/IMPORT ============
 function exportJSON() {
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const ud = getUserData();
+  const exportData = {
+    version: '0.0.3',
+    exportedAt: new Date().toISOString(),
+    user: { id: currentUser.id, name: currentUser.name, email: currentUser.email },
+    data: ud
+  };
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `finapp_pro_${new Date().toISOString().slice(0,10)}.json`;
+  a.download = `finapp_${currentUser.name.replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.json`;
   a.click();
   URL.revokeObjectURL(url);
   toast('JSON exportado!');
 }
 
 function exportCSV() {
-  const rows = [['ID', 'Usuário', 'Descrição', 'Categoria', 'Valor', 'Tipo', 'Data', 'Cartão']];
-  data.transactions.forEach(t => {
-    const u = data.users.find(x => x.id === t.userId);
-    const c = data.categories.find(x => x.id === t.category);
-    const cd = data.cards.find(x => x.id === t.card);
-    rows.push([t.id, u?.name || '', t.name, c?.name || '', t.value, t.type, t.date, cd?.name || '']);
+  const ud = getUserData();
+  const allCats = getAllCategories();
+  const rows = [['ID', 'Descrição', 'Categoria', 'Valor', 'Tipo', 'Data', 'Cartão', 'Conta']];
+  ud.transactions.forEach(t => {
+    const c = allCats.find(x => x.id === t.category);
+    const cd = ud.cards.find(x => x.id === t.card);
+    const acc = ud.accounts.find(x => x.id === t.account);
+    rows.push([t.id, t.name, c?.name || '', t.value, t.type, t.date, cd?.name || '', acc?.name || '']);
   });
   const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(';')).join('\n');
   const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `finapp_transacoes_${new Date().toISOString().slice(0,10)}.csv`;
+  a.download = `finapp_transacoes_${currentUser.name.replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.csv`;
   a.click();
   URL.revokeObjectURL(url);
   toast('CSV exportado!');
@@ -2695,20 +3206,22 @@ function importJSON(e) {
   reader.onload = (ev) => {
     try {
       const imported = JSON.parse(ev.target.result);
-      if (imported.users && imported.transactions) {
-        if (confirm('Substituir dados atuais? (Cancelar = mesclar)')) {
-          data = imported;
+      const ud = getUserData();
+      if (imported.data && (imported.data.transactions || imported.transactions)) {
+        const impData = imported.data || imported;
+        if (confirm('Substituir SEUS dados atuais? (Cancelar = mesclar)')) {
+          Object.assign(ud, impData);
         } else {
-          imported.users.forEach(u => { if (!data.users.find(x => x.id === u.id)) data.users.push(u); });
-          imported.categories.forEach(c => { if (!data.categories.find(x => x.id === c.id)) data.categories.push(c); });
-          imported.cards.forEach(c => { if (!data.cards.find(x => x.id === c.id)) data.cards.push(c); });
-          imported.caixinhas.forEach(c => { if (!data.caixinhas.find(x => x.id === c.id)) data.caixinhas.push(c); });
-          imported.transactions.forEach(t => { if (!data.transactions.find(x => x.id === t.id)) data.transactions.push(t); });
-          if (imported.contas) imported.contas.forEach(c => { if (!data.contas.find(x => x.id === c.id)) data.contas.push(c); });
-          if (imported.budgets) imported.budgets.forEach(b => { if (!data.budgets.find(x => x.id === b.id)) data.budgets.push(b); });
-          if (imported.goals) imported.goals.forEach(g => { if (!data.goals.find(x => x.id === g.id)) data.goals.push(g); });
+          if (impData.transactions) impData.transactions.forEach(t => { if (!ud.transactions.find(x => x.id === t.id)) ud.transactions.push(t); });
+          if (impData.accounts) impData.accounts.forEach(a => { if (!ud.accounts.find(x => x.id === a.id)) ud.accounts.push(a); });
+          if (impData.cards) impData.cards.forEach(c => { if (!ud.cards.find(x => x.id === c.id)) ud.cards.push(c); });
+          if (impData.caixinhas) impData.caixinhas.forEach(c => { if (!ud.caixinhas.find(x => x.id === c.id)) ud.caixinhas.push(c); });
+          if (impData.contas) impData.contas.forEach(c => { if (!ud.contas.find(x => x.id === c.id)) ud.contas.push(c); });
+          if (impData.budgets) impData.budgets.forEach(b => { if (!ud.budgets.find(x => x.id === b.id)) ud.budgets.push(b); });
+          if (impData.goals) impData.goals.forEach(g => { if (!ud.goals.find(x => x.id === g.id)) ud.goals.push(g); });
+          if (impData.customCategories) impData.customCategories.forEach(c => { if (!ud.customCategories.find(x => x.id === c.id)) ud.customCategories.push(c); });
         }
-        saveData();
+        saveUserData();
         renderPage();
         toast('Dados importados!');
       } else {
@@ -2727,12 +3240,14 @@ function shareWhatsApp() {
   const expense = monthTx.filter(t => t.type === 'expense').reduce((s, t) => s + Math.abs(t.value), 0);
   const balance = income - expense;
   const pendingContas = ud.contas.filter(c => c.status === 'pending' && c.type === 'payable');
-  let msg = ` *FinApp Pro - Resumo ${currentUser.name}*\n\n`;
+  let msg = ` *FinApp Pro v0.0.3 - ${currentUser.name}*\n\n`;
   msg += `📊 *Saldo do mês:* ${formatMoney(balance)}\n`;
   msg += `📈 Entradas: ${formatMoney(income)}\n`;
   msg += `📉 Saídas: ${formatMoney(expense)}\n`;
-  msg += `💰 Economia: ${income > 0 ? ((balance/income)*100).toFixed(0) : 0}%\n\n`;
-  msg += `💳 *Cartões:*\n`;
+  msg += ` Economia: ${income > 0 ? ((balance/income)*100).toFixed(0) : 0}%\n\n`;
+  msg += `🏦 *Contas:*\n`;
+  ud.accounts.forEach(a => { msg += `• ${a.icon} ${a.name}: ${formatMoney(a.balance)}\n`; });
+  msg += `\n *Cartões:*\n`;
   ud.cards.forEach(c => { msg += `• ${c.name}: ${formatMoney(c.used)} / ${formatMoney(c.limit)}\n`; });
   msg += `\n *Caixinhas:*\n`;
   ud.caixinhas.forEach(c => {
@@ -2744,20 +3259,20 @@ function shareWhatsApp() {
     pendingContas.forEach(c => { msg += `• ${c.name}: ${formatMoney(c.value)} (vence ${new Date(c.dueDate).toLocaleDateString('pt-BR')})\n`; });
   }
   msg += `\n Score: ${getScore()}/100\n`;
+  msg += `\n📱 walneynf.github.io/finapp\n`;
   msg += `\n Gerado em ${new Date().toLocaleString('pt-BR')}`;
   const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
   toast('Abrindo WhatsApp...');
 }
 
-function resetData() {
-  if (!confirm('Resetar TODOS os dados? Esta ação não pode ser desfeita.')) return;
-  if (!confirm('Tem CERTEZA? Todos os dados serão perdidos.')) return;
-  localStorage.removeItem(STORAGE_KEY);
-  data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+function resetUserData() {
+  if (!confirm(`Resetar TODOS os seus dados, ${currentUser.name}?\n\nEsta ação afetará APENAS seus dados. Outros usuários não serão afetados.`)) return;
+  if (!confirm('Tem CERTEZA? Todos os seus dados serão perdidos.')) return;
+  data.user_data[currentUser.id] = createDefaultUserData(currentUser.id);
   saveData();
   renderPage();
-  toast('Dados resetados!');
+  toast('Seus dados foram resetados!');
 }
 
 // ============ TOAST ============
